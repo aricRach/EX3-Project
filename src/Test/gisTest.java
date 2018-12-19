@@ -36,7 +36,6 @@ class gisTest {
 //		fail("Not yet implemented");
 //	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void getPostionAndDataTest() {
 		
