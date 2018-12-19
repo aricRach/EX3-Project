@@ -3,10 +3,14 @@ package GIS;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.text.Position;
+
+import Coords.MyCoords;
 import File_format.readCsv;
 import GUI.guiGame;
 import Geom.Point3D;
 import Map.converts;
+import algorithm.algo;
 
 public class game {
 
@@ -16,7 +20,7 @@ public class game {
 	private static double score;
 	private static long startTimer;
 
-	
+
 	public game(ArrayList<fruit>f,ArrayList<packman>p) {
 
 		this.fruits=f;
@@ -58,10 +62,53 @@ public class game {
 			}
 		}
 	}
+
+	public void paintGame() throws IOException {
+
+		guiGame demo = new guiGame();
+		converts c=new converts();
+
+		// create fruit and packmans collection with PIXEL coords
+		// in order to send the collections to createGuiAndShow
+		ArrayList<fruit> fruitPix=c.Coords2PixelFruit(fruits);
+
+		ArrayList<packman> packPix=c.Coords2PixelPack(packmans);
+
+
+		//now i will send to createAndShowGUI2 the colections with the pixel coordinates
+		demo.createAndShowGUI2(fruitPix,packPix);
+	}
 	
+	public static ArrayList<packman> copyPack(){
+		
+		ArrayList<packman> pp=new ArrayList<packman>();
+
+		for(int i=0;i<packmans.size();i++) {
+			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(), packmans.get(i).getSpeed(), packmans.get(i).getRadius());
+			Point3D postionTemp = new Point3D(packmans.get(i).getX(), packmans.get(i).getY(), packmans.get(i).getZ());
+			packman temp = new packman(tempData, postionTemp);
+			pp.add(temp);
+		}
+		return pp;
+	}
 	
+	public static ArrayList<fruit> copyFruit(){
+		
+		ArrayList<fruit> ff=new ArrayList<fruit>();
+
+		for(int i=0;i<fruits.size();i++) {
+			metaDataFruit tempData= new metaDataFruit(fruits.get(i).getId(), fruits.get(i).getWeight());
+			Point3D postionTemp = new Point3D(fruits.get(i).getX(),fruits.get(i).getY(),fruits.get(i).getZ());
+			fruit temp = new fruit(tempData, postionTemp);
+			ff.add(temp);
+		}
+		return ff;
+	}
+	
+
+
 	//getters and setters
-	
+
 	public static double getTotalTime() {
 		return totalTime;
 	}
@@ -87,122 +134,23 @@ public class game {
 	public static void setStartTimer(long startTimer) {
 		game.startTimer = startTimer;
 	}
-
-
-	/**
-	 * this function get collection of fruits and sole packman and calculate the 
-	 * the fruit the packman should eat(the closest fruit)
-	 * @param fruits
-	 * @param pack
-	 * @return
-	 *//*
-	public fruit findClosest(ArrayList<fruit> fruits,packman pack) {
-
-		//!!!!!!!!!!!
-		// use getTime but we changed this fucntion
-		double minTime=0; // initialize
-		int currentIndex=0; //initialize
-		if (!fruits.isEmpty()) {
-
-			minTime=getTime(pack,fruits.get(0)); //get fruit and pack and get the time to eat
-			currentIndex=0;
-		}else {
-
-			return null; // the fruits collection is empty!
-		}
-
-		int i=1;
-		while(i<fruits.size()) {
-
-			double temp=getTime(pack,fruits.get(i));
-			if (temp<minTime) {
-
-				minTime=temp;
-				currentIndex=i;
-			}
-			i++;
-		}
-		return fruits.get(currentIndex);		
-
-	}
-	public ArrayList<fruit> copy() {
-
-		ArrayList<fruit> copy=new ArrayList<fruit>();
-		int i=0;
-		while(i<fruits.size()) {
-
-			copy.add(fruits.get(i));
-			i++;
-		}
-		return copy;	
-	}
-
-
-	public path calc1(ArrayList<fruit> fruits,packman pack) {
-
-		MyCoords m= new MyCoords(); 
-
-		//***copy the arrayList in order not to delete the fruits from the original arrayList
-		ArrayList<fruit> copy=new ArrayList<fruit>();
-		int i=0;
-		while(i<fruits.size()) {
-
-			copy.add(fruits.get(i));
-			i++;
-		}
-		//***
-		path answer=new path();//bulid path 
-		answer.getPath().add(pack.getPosotion());// add the postion of the packman to the path
-		while(!copy.isEmpty()) {
-			fruit f=findClosest(copy,pack);
-			totalTime+=getTime(pack,f);
-			answer.getPath().add(f.getPosition());// add the postion of the fruit to the path
-			pack.setPosition(f.getPosition());
-			score+=f.getWeight();
-			copy.remove(f);
-		}
-
-		return answer;
-	}
-	//**
-
-
-	//tests
 	public static void main(String[] args) throws IOException { 
-
-		MyCoords m= new MyCoords(); 
 
 		ArrayList<packman> pack=new ArrayList<packman>();
 		ArrayList<fruit> fruits=new ArrayList<fruit>();
 
 		game g=new game(fruits,pack);
 
-		g.createGameCollection("C:\\Users\\aric\\Desktop\\מדעי המחשב\\שנה ב\\תכנות מונחה עצמים\\מטלה 3\\מטלה 3 pdf\\Ex3\\Ex3_data\\data\\game_1543684662657.csv");
-		/*		System.out.println(fruits.size());
-		System.out.println(pack.size());
-
-
-		System.out.println("packman 1 "+pack.get(0));
-		System.out.println("fruit 1 "+ fruits.get(0));
-		System.out.println("the distance is: "+m.distance3d(pack.get(0).getPosotion(), fruits.get(0).getPosition()));
-		System.out.println("the time it will take to eat "+g.getTime(pack.get(0),fruits.get(0)));
-
-
-		//		fruit toEat=g.findClosest(fruits,pack.get(0));
-		//		System.out.println(toEat);
-
-		path answer=g.calc1(fruits,pack.get(0));
-		System.out.println(answer);
-
-		System.out.println(g.totalTime);
-		System.out.println(g.score);
-		 */
+		game.createGameCollection("C:\\Users\\aric\\Desktop\\מד"
+				+ "עי המחשב\\שנה ב\\תכנות מונחה עצמים\\מטלה 3\\מטלה 3 pdf\\Ex3\\Ex3_data\\data\\game_1543693911932_a.csv");
 		
-		/*solution answer2=g.calcAll(fruits, pack);
+		//solution s=al.calcAll(fCoords, pCoords);
+		algo.calcAll(fruits, pack);
+		/*solution answer2=
 		for(int i=0;i<answer2.getPathCollection().size();i++) {
 			System.out.println("path of packman number " +pack.get(i).getId()+":");
 			System.out.println(answer2.getPathCollection().get(i));
-		}
+		}*/
 		
 		for(int i=0;i<pack.size();i++) {
 			
@@ -210,35 +158,10 @@ public class game {
 					+ " "+pack.get(i).getPoints()+" the time it takes is: "+pack.get(i).getTime());
 		}
 		
-		
-				Point3D old_fruit=new Point3D( 32.105468, 35.206183,0);
-				Point3D packman=new Point3D( 32.103989, 35.208964,0);
-				//218.15
-				g.changeCoordsAcordnigToRadius(packman,old_fruit, 275.68);
-		//				//valid is : from fruit to packman , radius from fruit to packman
-				
-		System.out.println(g.totalTime);
-		System.out.println(g.score);
+						
+		System.out.println(game.totalTime);
+		System.out.println(game.score);
 		
     	//g.paintGame(); //if we want to start this fucniton we need to init and show gui
-	}*/
-	
-	
-	public void paintGame() throws IOException {
-		
-		guiGame demo = new guiGame();
-		converts c=new converts();
-
-		// create fruit and packmans collection with PIXEL coords
-		// in order to send the collections to createGuiAndShow
-		ArrayList<fruit> fruitPix=c.Coords2PixelFruit(fruits);
-		
-		ArrayList<packman> packPix=c.Coords2PixelPack(packmans);
-		
-		
-		//now i will send to createAndShowGUI2 the colections with the pixel coordinates
-		demo.createAndShowGUI2(fruitPix,packPix);
-		
 	}
-
 }

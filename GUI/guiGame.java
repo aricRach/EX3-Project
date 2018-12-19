@@ -7,7 +7,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import File_format.createKmlKabaso;
 import File_format.writeCsv;
 import GIS.fruit;
 import GIS.game;
@@ -18,6 +20,7 @@ import GIS.solution;
 import Geom.Point3D;
 import Map.converts;
 import Map.map;
+import Threads.MyThread;
 import algorithm.algo;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -43,10 +46,13 @@ public class guiGame extends JFrame
 {
 	static JMenuBar wholeMenuBar;
 	JMenu fileMenu;
-	JMenuItem openItem, saveItem,clearItem,runItem,hideItem,showItem;
+	JMenuItem openItem, saveItem,clearItem,runItem;
+	static JMenuItem createKml;
+	static solution s;
+	static converts c;
 
-	public static ArrayList<fruit> fruits;
-	public static ArrayList<packman> packmans;
+	 static ArrayList<fruit> fruits;
+	 static ArrayList<packman> packmans;
 
 	static int x = -1; 
 	static int y = -1;
@@ -64,9 +70,22 @@ public class guiGame extends JFrame
 		super("Packman Game");
 		fruits=new ArrayList<fruit>();
 		packmans=new ArrayList<packman>();
-
+		s=new solution();		
+		try {
+			c=new converts();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	public static void callToPaintT(int x,int y,Color c,int index) {
+		
+		
+		jLabel.Thredpaint(x,y,c,index);
+		
+		
+	}
 	public void init() {
 
 
@@ -92,15 +111,12 @@ public class guiGame extends JFrame
 		clearItem=new JMenuItem("clear");
 		fileMenu.add(clearItem);
 		clearItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
-
-		//hide
-		hideItem=new JMenuItem("hide");
-		fileMenu.add(hideItem);
-		hideItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
-		//show
-		showItem=new JMenuItem("show");
-		fileMenu.add(showItem);
-		showItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+		
+		//createKml
+		createKml=new JMenuItem("save as kml");
+		fileMenu.add(createKml);
+		createKml.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.CTRL_MASK));
+		createKml.setEnabled(false); // not allowing to create kml file when the game is empty
 
 
 		wholeMenuBar.add(fileMenu);
@@ -123,6 +139,7 @@ public class guiGame extends JFrame
 					fruits.clear();
 					packmans.clear();
 					readFileDialog();
+					createKml.setEnabled(true);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -138,25 +155,32 @@ public class guiGame extends JFrame
 
 		runItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				converts c = null;
-				try {
-					c = new converts();
-				} catch (IOException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+				createKml.setEnabled(true);
+				//setResizable(false);
+//				converts c = null;
+//				try {
+//					c = new converts();
+//				} catch (IOException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				}
 				System.out.println("the game start");
 				//we can call to function that paint the path of the packmans
 				try {
-					ArrayList<fruit>fCoords=c.pixels2CoordsFruit(fruits);
-					ArrayList<packman>pCoords=c.pixels2CoordsPack(packmans);
+					
+					if (packmans.size()==0) {
+						
+						throw new RuntimeException("can't start , there is no packman");
+					}
+					
+					ArrayList<fruit>fCoords=converts.pixels2CoordsFruit(fruits);
+					ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans);
 
 					//	game g=new game(fCoords,pCoords);  
-					algo al=new algo();
+				//	algo al=new algo();
 
-					solution s=al.calcAll(fCoords, pCoords);
-					solution solutionPixel=c.solutionToPixel(s);
+					s=algo.calcAll(fCoords, pCoords);
+					solution solutionPixel=converts.solutionToPixel(s);
 
 					jLabel.paintEat(solutionPixel);
 
@@ -165,10 +189,11 @@ public class guiGame extends JFrame
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-
 			}
 		});
+		
+		
+		
 
 		clearItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -176,26 +201,15 @@ public class guiGame extends JFrame
 				System.out.println("clean pressed");
 				fruits.clear();
 				packmans.clear();
+				createKml.setEnabled(false);
 				repaint();
 			}
 		});
-
-		hideItem.addActionListener(new ActionListener() {
+		
+		createKml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				wholeMenuBar.setVisible(false);
-				showItem=new JMenuItem("show");
-				fileMenu.add(showItem);
-				showItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
-			}
-
-		});
-
-
-		showItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				wholeMenuBar.setVisible(true);
+				
+				writeFileDialogKml();
 			}
 		});
 
@@ -204,7 +218,6 @@ public class guiGame extends JFrame
 		{
 			public void windowResized(WindowEvent evt)
 			{
-				System.out.println("hi");
 				jLabel.repaint();
 				System.out.println(jLabel.getWidth());
 				System.out.println(jLabel.getHeight());
@@ -291,11 +304,38 @@ public class guiGame extends JFrame
 		}
 
 	}
+	
+	public void writeFileDialogKml() {
+		//		 try write to the file
+		FileDialog fd = new FileDialog(this, "create and save the kml file", FileDialog.SAVE);
+		fd.setFile("*.kml");
+		fd.setFilenameFilter(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".kml");
+			}
+		});
+		fd.setVisible(true);
+		String folder = fd.getDirectory();
+		String fileName = fd.getFile();
+		try {
+			FileWriter fw = new FileWriter(folder + fileName);
+			PrintWriter outs = new PrintWriter(fw);
+			ArrayList<packman> ppCoords=converts.pixels2CoordsPack(packmans);
+			ArrayList<fruit> ffCoords = converts.pixels2CoordsFruit(fruits);
+			String save=folder+"\\"+fileName;
+			createKmlKabaso.run(ffCoords, ppCoords,s,save);
+			outs.close();
+			fw.close();
+		} catch (IOException ex) {
+			System.out.print("Error writing file  " + ex);
+		}
 
+	}
 
 	//G
 	//get arrayList of fruits and packmans from game into the gui and repaint with the new arraysList
-	public  void createAndShowGUI2(ArrayList<fruit>ff,ArrayList<packman>pp)
+	public void createAndShowGUI2(ArrayList<fruit>ff,ArrayList<packman>pp)
 	{	
 		//push the ff and pp into fruits and packmans
 		int i=0;
@@ -318,10 +358,11 @@ public class guiGame extends JFrame
 			}
 		});
 
-		//setSize(850,500);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setVisible(true);
-
+//		init();
+//
+//		setSize(850,500);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setVisible(true);
 		jLabel.repaint();
 
 	}
@@ -344,11 +385,10 @@ public class guiGame extends JFrame
 
 	public static int fruitSize() {
 
-		System.out.println(fruits.size());
 		return fruits.size();
 	}
+	
 	public static int packSize() {
-		System.out.println(packmans.size());
 		return packmans.size();
 	}
 
@@ -418,8 +458,6 @@ class MyJLabel extends JLabel implements MouseListener
 		}
 	}
 
-
-
 	@Override
 	public void paintComponent(Graphics g)
 	{
@@ -427,7 +465,7 @@ class MyJLabel extends JLabel implements MouseListener
 		super.paintComponent(g);
 		g.drawImage(imageIcon.getImage(),0,0,getWidth(),getHeight(),this);
 
-		//function!!
+		// update the pixels after strech
 		reSizeFruit();
 		reSizePackman();
 		oldHeight=getHeight();
@@ -444,7 +482,6 @@ class MyJLabel extends JLabel implements MouseListener
 			guiGame.x = (int)guiGame.getFruitArr().get(i).getX() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
 			guiGame.y = (int)guiGame.getFruitArr().get(i).getY() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
 
-			// g.drawOval(guiGame.x,guiGame.y, 20, 20);
 			g.fillOval(guiGame.x, guiGame.y, r, r);
 
 			i++;
@@ -460,31 +497,13 @@ class MyJLabel extends JLabel implements MouseListener
 			guiGame.x = (int)guiGame.getPackArr().get(j).getX() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
 			guiGame.y = (int)guiGame.getPackArr().get(j).getY() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
 			g.fillOval(guiGame.x, guiGame.y, r, r);
-
-			/*int k=j;
-			while(guiGame.getPackArr().get(j).getPath().getPathI(k)!=null) {
-
-				int pathX=(int)guiGame.getPackArr().get(j).getPath().getPathI(k).x();
-				int pathY=(int)guiGame.getPackArr().get(j).getPath().getPathI(k).y();
-
-	          g.drawLine(guiGame.x, guiGame.y, pathX, pathY); //draw line
-	          k++;
-			}*/
 			j++;
 		}
 
 	}
 
-	//delete
 	public void paintEat(solution s) {
 
-		map m = null;
-		try {
-			m = new map();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		Graphics g=this.getGraphics();
 		super.paintComponent(g);
 		g.drawImage(imageIcon.getImage(),0,0,getWidth(),getHeight(),this);
@@ -499,6 +518,7 @@ class MyJLabel extends JLabel implements MouseListener
 		paintFruits();
 		paintPackmans();
 		paintPath(s);
+
 	}
 
 	public void paintFruits() {
@@ -511,6 +531,7 @@ class MyJLabel extends JLabel implements MouseListener
 		int i=0;//index of the arrayList
 		while(i<sizeFruit) {//there are still fruits to show
 
+			
 			int r = 10;
 			guiGame.x = (int)guiGame.getFruitArr().get(i).getX() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
 			guiGame.y = (int)guiGame.getFruitArr().get(i).getY() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
@@ -540,24 +561,42 @@ class MyJLabel extends JLabel implements MouseListener
 
 	public void paintPath(solution s) {
 
+		//paintFruits();//delete
+
+		
 		Graphics g=this.getGraphics();
 		int solutionSize=s.getSize();
-		int r = 3;
 		int k=0;
 
+		// pass all the path in the solution ,create thread for each path and use the start function
 		while(solutionSize>k) {
 
 			Color c=randomColor();
 			g.setColor(c);
-
-			for(int t=0;t<s.getPathCollection().get(k).getPath().size();t++) {
-
-				guiGame.x = (int) s.getPathCollection().get(k).getPath().get(t).x();
-				guiGame.y = (int) s.getPathCollection().get(k).getPath().get(t).y();
-				g.fillOval(guiGame.x, guiGame.y, r, r);
-			}
+			
+			MyThread t1 = new MyThread("",c, s.getPathCollection().get(k),k);// k is the index of the solution 
+			//so its the index of the current packman path
+			t1.start();
 			k++;
 		}
+	}
+	
+	public void Thredpaint(int x,int y,Color c,int index) {
+		
+		Graphics g=this.getGraphics();
+		g.setColor(c);
+		
+		try {
+			
+			double speed=guiGame.packmans.get(index).getSpeed();
+			Thread.sleep((long) (15/speed));
+			g.fillOval(x, y, 3, 3);
+
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public Color randomColor() {
@@ -568,8 +607,6 @@ class MyJLabel extends JLabel implements MouseListener
 
 		return new Color(r,g,b);
 	}
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -603,13 +640,14 @@ class MyJLabel extends JLabel implements MouseListener
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+		guiGame.createKml.setEnabled(true);
 		//by pressing more then 2 seconds create a packman 
 		// by pressing less then 2 seconds create an apple
 		System.out.println("mouse Clicked");
 		guiGame.timeClicked = System.currentTimeMillis() - guiGame.pressedTime;
 		System.out.println("("+ e.getX() + "," + e.getY() +")");
 
-		if (guiGame.timeClicked >= 2000) {
+		if (guiGame.timeClicked >= 500) {
 
 			String i="draw pack";
 			i+=1;
@@ -619,6 +657,7 @@ class MyJLabel extends JLabel implements MouseListener
 			guiGame.packmans.add(pack);
 			repaint();
 			System.out.println("number of packmans: "+guiGame.packmans.size());
+			guiGame.createKml.setEnabled(false);
 		}else {
 
 			String j="draw fruit";

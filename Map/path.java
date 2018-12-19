@@ -20,6 +20,11 @@ public class path {
 		
 	}
 	
+	public int getSize() {
+		
+		return path.size();
+	}
+	
 	public ArrayList<Point3D> getPath(){
 		
 		return this.path;

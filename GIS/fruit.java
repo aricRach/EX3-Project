@@ -15,6 +15,10 @@ public class fruit {
 	}
 	
 	
+	public metaDataFruit getData() {
+		
+		return data;
+	}
 	public Point3D getPosition() {
 		
 		return position;

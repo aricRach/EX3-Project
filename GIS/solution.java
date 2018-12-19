@@ -28,6 +28,13 @@ public class solution {
 		
 		return pathCollection;
 	}
+
+	@Override
+	public String toString() {
+		return "solution [pathCollection=" + pathCollection + "]";
+	}
+	
+	
 	
 	
 }

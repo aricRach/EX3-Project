@@ -9,6 +9,7 @@ public class Point3D implements Geom_element, Serializable
 	private static final long serialVersionUID = 1L;
 	private double _x,_y,_z;
 	private long timeStamp;
+//	private boolean isEaten;
 	
 
 	public Point3D(double x,double y,double z) 
@@ -46,6 +47,14 @@ public class Point3D implements Geom_element, Serializable
 	public int ix() {return (int)_x;}
 	public int iy() {return (int)_y;}
 	public int iz() {return (int)_z;}
+	
+/*	public boolean isEaten() {
+		return isEaten;
+	}
+
+	public void setEaten(boolean isEaten) {
+		this.isEaten = isEaten;
+	}*/
 	
 	public void setLocationXY(Point3D temp) {
 		

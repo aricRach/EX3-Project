@@ -1,5 +1,7 @@
 package GIS;
 
+import java.util.ArrayList;
+
 import Geom.Point3D;
 import Map.path;
 
@@ -8,28 +10,50 @@ public class packman {
 	private Point3D position;
 	private metaDataPack data;
 	private path track; // all the fruis postions
+	private ArrayList<fruit> eatenFruits;
 	
-	
+
 	public packman(metaDataPack data,Point3D position) {
 	
 		this.data=data;
 		this.position=position;
 		this.track=new path();
 		initializePath(); // initial path with packman location
+		eatenFruits = new ArrayList<fruit>();
 	}
 	
+	public ArrayList<fruit> getEatenFruits() {
+		return eatenFruits;
+	}
+
+
+	public void setEatenFruits(ArrayList<fruit> eatenFruits) {
+		this.eatenFruits = eatenFruits;
+	}
 	
 	public void initializePath() {
 		
-		Point3D startPoint=getPosotion();
+		Point3D startPoint=getPosition();
 		track.getPath().add(startPoint);
+		
 	}
 
-	public Point3D getPosotion() {
+	public Point3D getPosition() {
 
 		return position;
 	}
 	
+	
+	public metaDataPack getData() {
+		return data;
+	}
+
+
+	public void setData(metaDataPack data) {
+		this.data = data;
+	}
+
+
 	public path getPath() {
 		
 		return track;
@@ -114,8 +138,6 @@ public class packman {
 	public double getTime() {
 		return data.getTime();
 	}
-
-
 
 	public void setTime(double time) {
 		data.setTime(time);

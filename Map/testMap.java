@@ -1,4 +1,4 @@
-package Map;
+/*package Map;
 
 import java.io.IOException;
 
@@ -37,3 +37,4 @@ public class testMap {
 	}
 
 }
+*/
