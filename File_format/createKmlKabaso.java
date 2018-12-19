@@ -18,11 +18,13 @@ public class createKmlKabaso {
 	private static long startTimer;
 	private static int x=1;
 	private final BufferedWriter writer;
+	String timeStart ;
 
 	public createKmlKabaso(String output) throws IOException {
 
 		writer = new BufferedWriter(new FileWriter(output));
-		this.startTimer=System.currentTimeMillis();
+		startTimer=System.currentTimeMillis();
+		timeStart = timestampToDate(startTimer);
 	}
 	
 	//str , id,speed,radius,time,lat,lon,alt,weight
@@ -30,8 +32,9 @@ public class createKmlKabaso {
 						  String time,double weight,double latitude,
 						  double longitude,double alt) throws IOException {
 		if(str=="P") {
+			String timeStart = timestampToDate(startTimer);
 			writer.write("<Placemark>\n" + 
-					"<name><![CDATA["+"Packman" +id+"]]></name>\n" +
+					"<name><![CDATA["+"Packman" +id+"]]></name>\n" + "<TimeSpan><begin>"+timeStart+"</begin>"+"<end>"+"</end></TimeSpan>"+
 					"<description><![CDATA[Speed: <b>"+speed+"</b><br/>Radius: <b>"
 					+radius+"</b><br/>Date: <b>" // Timestamp: <b>"+Timestamp+"</b><br/>
 					+time+"</b>]]></description><styleUrl>"+"pack"+"</styleUrl>\n" + 
@@ -44,10 +47,10 @@ public class createKmlKabaso {
 		else if(str=="F") {
 			time = time.replace(" ", "T");
 			time+="Z";
-			String timeStart = timestampToDate(startTimer);
+			//String timeStart = timestampToDate(startTimer);
 			
-			timeStart = timeStart.replace(" ", "T");
-			timeStart+="Z";
+			//timeStart = timeStart.replace(" ", "T");
+			//timeStart+="Z";
 			
 			writer.write("<Placemark>\n" + "<TimeSpan><begin>"+timeStart+"</begin>"+"<end>"+time+"</end></TimeSpan>"+
 					"<name><![CDATA["+"Fruit "+id+"]]></name>\n" +
@@ -63,7 +66,7 @@ public class createKmlKabaso {
 			time+="Z";
 			
 			writer.write("<Placemark>\n" + 
-					"<name><![CDATA["+"Path" +id+"]]></name>\n" + "<TimeStamp><when>" + time + "</when></TimeStamp>" +
+					"<name><![CDATA["+"Path" +id+"]]></name>\n" +"<TimeSpan><begin>"+time+"</begin>"+"<end>"+"</end></TimeSpan>"+
 					"<description><![CDATA[Speed: <b>"+speed+"</b><br/>Radius: <b>"
 					+radius+"</b><br/>Date: <b>" 
 					+time+"</b>]]></description><styleUrl>"+"pack"+"</styleUrl>\n" + 
@@ -194,7 +197,7 @@ public class createKmlKabaso {
 		String name = "enter the file name here"+".kml";
 		createKmlKabaso k =new createKmlKabaso(name);
 		game g=new game(ff,pp);
-		String pathFile = "C:\\Users\\aric\\Desktop\\לימודים\\מונחה עצמים\\Ex 3\\Ex3_data\\game_1543684662657.csv";
+		String pathFile = "C:\\Users\\Tal\\Desktop\\tal.csv";
 		game.createGameCollection(pathFile); 
 		ArrayList<fruit> copyFruit=game.copyFruit();//copy beacuse the fruits delete in calc all function
 		ArrayList<packman> copyPack=game.copyPack();//copy beacuse the fruits delete in calc all function

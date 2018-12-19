@@ -324,7 +324,7 @@ public class guiGame extends JFrame
 			ArrayList<packman> ppCoords=converts.pixels2CoordsPack(packmans);
 			ArrayList<fruit> ffCoords = converts.pixels2CoordsFruit(fruits);
 			String save=folder+"\\"+fileName;
-			createKmlKabaso.run(ffCoords, ppCoords,s,save);
+			//createKmlKabaso.run(ffCoords, ppCoords,s,save);
 			outs.close();
 			fw.close();
 		} catch (IOException ex) {

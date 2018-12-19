@@ -6,7 +6,16 @@ import GIS.fruit;
 import GIS.packman;
 import Map.converts;
 
+
+
 public class writeCsv {
+	/**
+	 * This function recive 2 ArrayLists  
+	 * @param ff ArrayList of fruits
+	 * @param pp ArrayList of packmans
+	 * @return 
+	 * @throws IOException
+	 */
 	
 	public static String Write(ArrayList<fruit> ff,ArrayList<packman> pp) throws IOException {
 		
@@ -20,7 +29,6 @@ public class writeCsv {
 		String str = "Type,id,Lat,Lon,Alt,Speed/Weight,Radius,"+pCoords.size()+","+fCoords.size()+"\n";
 		for(int i=0;i<pCoords.size();i++) {
 			
-
 			str+="P,"+pCoords.get(i).getId()+","+pCoords.get(i).getX()+","+pCoords.get(i).getY()+","+
 					pCoords.get(i).getZ()+","+pCoords.get(i).getSpeed()+","+pCoords.get(i).getRadius()+","+"\n";
 		}
