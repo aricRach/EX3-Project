@@ -12,6 +12,14 @@ import Geom.Point3D;
 import Map.converts;
 import algorithm.algo;
 
+/**
+ * This class represents game that conatains fruits and packmans each of them has position and
+ * meta data accociated with them,
+ * the game also include general score according to the Weight of the eaten fruits and the start time
+ * @author aric and tal
+ *
+ */
+
 public class game {
 
 	private static ArrayList<fruit> fruits;
@@ -72,17 +80,16 @@ public class game {
 	public void paintGame() throws IOException {
 
 		guiGame demo = new guiGame();
-		converts c=new converts();
+		//converts c=new converts(); 
 
 		// create fruit and packmans collection with PIXEL coords
 		// in order to send the collections to createGuiAndShow
-		ArrayList<fruit> fruitPix=c.Coords2PixelFruit(fruits);
-
-		ArrayList<packman> packPix=c.Coords2PixelPack(packmans);
+		ArrayList<fruit> fruitPix=converts.Coords2PixelFruit(fruits);
+		ArrayList<packman> packPix=converts.Coords2PixelPack(packmans);
 
 
 		//now i will send to createAndShowGUI2 the colections with the pixel coordinates
-		demo.createAndShowGUI2(fruitPix,packPix);
+		demo.openFileGUI(fruitPix,packPix);
 	}
 	
 	public static ArrayList<packman> copyPack(){

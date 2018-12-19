@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
-import File_format.createKmlKabaso;
+import File_format.Path2KML;
 import File_format.writeCsv;
 import GIS.fruit;
 import GIS.game;
@@ -320,7 +320,7 @@ public class guiGame extends JFrame
 			ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans);
 			algo.calcAll(fCoords, pCoords);
 
-			createKmlKabaso.run(ffCoords, ppCoords,s,save,pCoords);
+			Path2KML.run(ffCoords, ppCoords,s,save,pCoords);
 			outs.close();
 			fw.close();
 		} catch (IOException ex) {
