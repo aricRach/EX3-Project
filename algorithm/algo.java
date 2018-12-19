@@ -13,6 +13,7 @@ import Geom.Point3D;
 public abstract class algo {
 
 	//need to improve the position?!
+	//check
 	public static void packEatFruit(fruit f,packman p) {
 		
 		MyCoords m =new MyCoords();
