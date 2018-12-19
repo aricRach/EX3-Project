@@ -72,7 +72,7 @@ class gisTest {
 		
 		if (!id.equals(idCurrent)) {
 			
-			Assert.fail();//d
+			Assert.fail();
 		}
 		Assert.assertEquals(speed, speedCurrent,0);
 		Assert.assertEquals(radius, radiusCurrent,0);
