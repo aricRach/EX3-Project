@@ -22,14 +22,20 @@ public class game {
 
 
 	public game(ArrayList<fruit>f,ArrayList<packman>p) {
-
-		this.fruits=f;
-		this.packmans=p;
-		this.totalTime=0;
-		this.score=0;
-		this.startTimer=System.currentTimeMillis();
+		//static access
+		game.fruits=f;
+		game.packmans=p;
+		game.totalTime=0;
+		game.score=0;
+		game.startTimer=System.currentTimeMillis();
 	}
 
+	/**
+	 * This function initialize the game data, its read from csv file and then create
+	 * Arraylist of fruits and packmans that store all the data
+	 * @param path the csv input file
+	 * @throws IOException
+	 */
 
 	public static void createGameCollection(String path) throws IOException{
 
