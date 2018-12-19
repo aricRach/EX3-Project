@@ -14,6 +14,8 @@ public class writeCsv {
 		
 		ArrayList<packman> pCoords=c.pixels2CoordsPack(pp);
 		ArrayList<fruit> fCoords=c.pixels2CoordsFruit(ff);
+//		ArrayList<packman> pCoords=converts.pixels2CoordsPack(pp);
+//		ArrayList<fruit> fCoords=converts.pixels2CoordsFruit(ff);
 		
 		String str = "Type,id,Lat,Lon,Alt,Speed/Weight,Radius,"+pCoords.size()+","+fCoords.size()+"\n";
 		for(int i=0;i<pCoords.size();i++) {
