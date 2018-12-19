@@ -5,10 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Coords.MyCoords;
 import GIS.fruit;
 import GIS.game;
 import GIS.packman;
 import GIS.solution;
+import Geom.Point3D;
 import algorithm.algo;
 
 public class createKmlKabaso {
@@ -40,7 +42,14 @@ public class createKmlKabaso {
 		}
 		
 		else if(str=="F") {
-			writer.write("<Placemark>\n" + //"<TimeSpan><begin>"+time+"</begin>"+"<end>"+endTime+"</end>"+
+			time = time.replace(" ", "T");
+			time+="Z";
+			String timeStart = timestampToDate(startTimer);
+			
+			timeStart = timeStart.replace(" ", "T");
+			timeStart+="Z";
+			
+			writer.write("<Placemark>\n" + "<TimeSpan><begin>"+timeStart+"</begin>"+"<end>"+time+"</end></TimeSpan>"+
 					"<name><![CDATA["+"Fruit "+id+"]]></name>\n" +
 					"<description><![CDATA[Weight: <b>"+weight+"</b><br/>]]></description><styleUrl>"+"fruit"+"</styleUrl>\n" + 
 					"<Point>\n" + 
@@ -84,8 +93,8 @@ public class createKmlKabaso {
 		return date;
 	}
 	
-	public static void run(ArrayList<fruit> ff,ArrayList<packman> pp,solution s,String save) throws IOException {
-		
+	public static void run(ArrayList<fruit> ff,ArrayList<packman> pp,solution s,String save,ArrayList<packman> pEaten) throws IOException {
+		MyCoords m = new MyCoords();
 		if (pp.size()==0 && ff.size()==0) {
 			
 			throw new RuntimeException("the game is empty please enter elements or open file");
@@ -106,16 +115,37 @@ public class createKmlKabaso {
 			double lon = pp.get(i).getPosition().y();
 			double alt = pp.get(i).getPosition().z();
 			
+			Point3D start = pp.get(i).getPosition(); // Start
+			long currentTime = startTimer;
+			for(int j=0; j<pEaten.get(i).getEatenFruits().size();j++) {
+				
+				fruit f = pEaten.get(i).getEatenFruits().get(j); // first Fruit
+				double dist = m.distance3d(start, f.getPosition())-pEaten.get(i).getRadius();
+				long timeStamp = (long) (dist/pEaten.get(i).getSpeed());
+				currentTime+=timeStamp*1000;
+				pEaten.get(i).getEatenFruits().get(j).getPosition().setTimeStamp(currentTime); //maybe add one sec
+				
+				 id = pEaten.get(i).getEatenFruits().get(j).getId();
+				double weight = pEaten.get(i).getEatenFruits().get(j).getWeight();
+				double lat1 = pEaten.get(i).getEatenFruits().get(j).getX();
+				double lon1 = pEaten.get(i).getEatenFruits().get(j).getY();
+				double alt1 = pEaten.get(i).getEatenFruits().get(j).getZ();
+				 String time = timestampToDate(pEaten.get(i).getEatenFruits().get(j).getPosition().getTimeStamp());
+				 k.writeIcon("F",id,0,0,time,weight,lon1,lat1,alt1);
+				 
+				start = f.getPosition();
+			}
+			
 			k.writeIcon("P",id,speed,radius,"0",0,lon,lat,alt);
 		}
 		for(int i=0; i<ff.size(); i++) {
-			String id = ff.get(i).getId();
-			double weight = ff.get(i).getWeight();
-			double lat = ff.get(i).getX();
-			double lon = ff.get(i).getY();
-			double alt = ff.get(i).getZ();
+//			String id = ff.get(i).getId();
+//			double weight = ff.get(i).getWeight();
+//			double lat = ff.get(i).getX();
+//			double lon = ff.get(i).getY();
+//			double alt = ff.get(i).getZ();
 			
-			k.writeIcon("F",id,0,0,"0",weight,lon,lat,alt);
+//			k.writeIcon("F",id,0,0,"0",weight,lon,lat,alt);
 		}
 		
 		//algo.calcAll(ff, pp);// start the game to create the paths
@@ -171,7 +201,7 @@ public class createKmlKabaso {
 		
 		solution s = algo.calcAll(ff, pp);
 		
-		createKmlKabaso.run(copyFruit,copyPack,s,name);
+		createKmlKabaso.run(copyFruit,copyPack,s,name,pp);
 	}
 		
 }
