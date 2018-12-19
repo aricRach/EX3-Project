@@ -13,12 +13,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import File_format.readCsv;
+import GIS.fruit;
+import GIS.game;
+import GIS.packman;
 
 class fileTest {
 
 	//private File path=new File("C:\\Users\\aric\\git\\Ex2\\csv files"); 
 	String pathName="C:\\Users\\aric\\git\\EX3-Project\\testFile.csv";//the location of the file
+	ArrayList<fruit> fruits=new ArrayList<fruit>();
+	ArrayList<packman> packmans=new ArrayList<packman>();
 
+	
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -47,7 +53,6 @@ class fileTest {
 		readCsv csv =new readCsv(pathName);
 		ArrayList<String> csvLines=csv.readCsvGame();
 
-		System.out.println(csvLines.get(0));
 		int expecteds =15;
 		int actuals=csvLines.size();
 		Assert.assertEquals(expecteds, actuals);
@@ -72,6 +77,34 @@ class fileTest {
 		}
 
 	}
+	
+	// create game object then stores all the data from the csv file in fruits and packmans arrays
+	//i expect the size of fruits and packmans array to be like the number of fruits and packmans in 
+	//the csv file		
+	@Test
+	public void gameCreation() throws IOException {
+		
+		game g=new game(fruits,packmans);
+		game.createGameCollection(pathName); 
+		
+		int expectedsFruit=12;
+		int expectedsPack=3;
+		
+		Assert.assertEquals(expectedsFruit, fruits.size());
+		Assert.assertEquals(expectedsPack, packmans.size());
+		
+		//check if the speed of each packman is 1 like the file
+		int expectedSpeed=1;
+		for(int i=0;i<packmans.size();i++) {
+
+			if (packmans.get(i).getSpeed()!=expectedSpeed) {
+				
+				Assert.fail();
+			}
+		}
+		
+	}
+	
 
 }
 
