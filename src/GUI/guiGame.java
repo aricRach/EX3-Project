@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -159,9 +160,10 @@ public class guiGame extends JFrame
 
 		runItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				game.setTotalTime(0);
+				game.setScore(0);
 				createKml.setEnabled(true);
 				System.out.println("the game start");
-
 				try {
 
 					if (packmans.size()==0) {
@@ -176,7 +178,9 @@ public class guiGame extends JFrame
 					s=algo.calcAll(fCoords, pCoords); // Solution store all the paths
 
 					solution solutionPixel=converts.solutionToPixel(s); // convert to pixel for show in GUI
-					jLabel.paintEat(solutionPixel); 
+					jLabel.paintEat(solutionPixel);
+
+				JOptionPane.showMessageDialog(null, "total time is: "+game.getTotalTime()+"\n"+"total score is: "+game.getScore());//delete
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -589,7 +593,9 @@ class MyJLabel extends JLabel implements MouseListener
 			MyThread t1 = new MyThread(""+k,c, s.getPathCollection().get(k),k);
 			t1.start();
 			k++;
+
 		}
+		//JOptionPane.showMessageDialog(null, "total time is: "+game.getTotalTime());//delete
 	}
 
 	/**

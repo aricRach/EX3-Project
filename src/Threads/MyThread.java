@@ -1,6 +1,10 @@
 package Threads;
 
 import java.awt.Color;
+
+import javax.swing.JOptionPane;
+
+import GIS.game;
 import GUI.guiGame;
 import Map.path;
 

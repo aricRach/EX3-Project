@@ -3,9 +3,6 @@ package GIS;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.text.Position;
-
-import Coords.MyCoords;
 import File_format.readCsv;
 import GUI.guiGame;
 import Geom.Point3D;
