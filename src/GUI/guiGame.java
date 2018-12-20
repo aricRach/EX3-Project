@@ -7,6 +7,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import File_format.Path2KML;
@@ -24,6 +25,7 @@ import algorithm.algo;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -516,7 +518,15 @@ class MyJLabel extends JLabel implements MouseListener
 			int r = 10;
 			guiGame.x = (int)guiGame.getFruitArr().get(i).getX() - (r / 2); // get the X-Axis pixel
 			guiGame.y = (int)guiGame.getFruitArr().get(i).getY() - (r / 2); // get the Y-Axis pixel
-			g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location
+			//g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location
+			Image packman;
+			try {
+				packman = ImageIO.read(new File("\\lib\\rsz_15fruit.png"));
+				g.drawImage(packman, guiGame.x, guiGame.y,this);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			i++;
 		}
 	}
@@ -535,7 +545,15 @@ class MyJLabel extends JLabel implements MouseListener
 			int r = 15;
 			guiGame.x = (int)guiGame.getPackArr().get(j).getX() - (r / 2); // get the X-Axis pixel
 			guiGame.y = (int)guiGame.getPackArr().get(j).getY() - (r / 2); // get the Y-Axis pixel
-			g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location
+			//g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location	
+			Image packman;
+			try {
+				packman = ImageIO.read(new File("\\lib\\rsz_15packman.png"));
+				g.drawImage(packman, guiGame.x, guiGame.y,this);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			j++;
 		}
 	}
