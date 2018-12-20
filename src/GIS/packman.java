@@ -6,8 +6,8 @@ import Geom.Point3D;
 import Map.path;
 
 /**
- * this class represent Packman object each of packman has : id,position,speed,eating radius,and more data
- * associated with him 
+ * this class represent Packman object each of packman has : id,position,speed,eating radius,
+ * ArrayList of fruits that he ate and more data associated with him 
  * @author Tal and Aric
  */
 

@@ -12,14 +12,21 @@ import Geom.Point3D;
 
 public abstract class algo {
 
-	//need to improve the position?!
-	//check
+	/**
+	 * this function add this fruit to the eatenFruit array of the packman.
+	 * Progress to the fruit each second by move in radius 
+	 * add the weight of the fruit to his score and the time it takes to his total time and to
+	 * the total time of the game
+	 * @param f fruit
+	 * @param p packman
+	 */
 	public static void packEatFruit(fruit f,packman p) {
 		
 		MyCoords m =new MyCoords();
 		System.out.println("packman " +p.getId() +" eats fruit "+ f.getId());
 		p.getEatenFruits().add(f);
-		// CHECK THE TIME IT WILL TAKE TO EAT TO FRUIT AFTER CHANGING THE POSTION OF FRUIT BY RADIUS=newFruitPosition
+		// CHECK THE TIME IT WILL TAKE TO EAT TO FRUIT AFTER CHANGING THE POSTION
+		// OF FRUIT BY RADIUS=newFruitPosition
 		p.setPoints(p.getPoints()+f.getWeight());//update the points of the packman
 		Point3D tempPointFruit=changeCoordsAcordnigToRadius(f.getPosition(), p.getPosition(), p.getRadius()); 
 		metaDataFruit data=new metaDataFruit(f.getId(),f.getWeight());
@@ -30,7 +37,6 @@ public abstract class algo {
 		game.setTotalTime(game.getTotalTime()+timeToEat);
 
 		p.setTime(p.getTime()+getTime(p,newFruitPosition));// add to packman's time agg the time to eat this fruit
-		//double i=0;// the additional time 
 		while(m.distance3d(f.getPosition(), p.getPosition())>p.getRadius()) {// send the original location  fruit
 			proceedToFruit(p,f);
 		}
@@ -43,7 +49,13 @@ public abstract class algo {
 
 	}
 
-
+	/**
+	 * Progress to the fruit by move in radius, set the packman 
+	 * position according to his current position after each step
+	 *  and add this position to his path
+	 * @param p packman
+	 * @param f fruit
+	 */
 	public static void proceedToFruit(packman p,fruit f) {
 
 		Point3D temp=changeCoordsAcordnigToRadius(p.getPosition(),f.getPosition(),p.getRadius());
@@ -51,6 +63,12 @@ public abstract class algo {
 		p.addToTrack(temp); // add to track the current position afeter procceding to fruit
 	}
 
+	/**
+	 * This function calculate the time it will take to eat the fruit Given the speed and radius
+	 * @param p packman
+	 * @param f  fruit that closer in raduis to packman
+	 * @return time
+	 */
 	// f is fruit that closer in raduis to packman
 	private static double getTime(packman p,fruit f) {
 
@@ -70,7 +88,13 @@ public abstract class algo {
 
 	//****calcAll**
 
-
+	/**
+	 * This function get fruits and packmans and calculate the paths of each packman to the
+	 * fruit he should eat, Given data such as radius speed and time
+	 * @param fruits ArrayList of fruits objects
+	 * @param packsArrayList of packmans objects
+	 * @return solution that contain all the paths in the game
+	 */
 	public static solution calcAll(ArrayList<fruit> fruits,ArrayList<packman> packs) {
 
 		solution answer=new solution();
@@ -90,7 +114,8 @@ public abstract class algo {
 				packman current = packs.get(i);
 				int toEat=eatFruit(fruits,current);//return the index of fruit the packman should eat
 				
-				Point3D tempPointPackman=changeCoordsAcordnigToRadius(current.getPosition(), fruits.get(toEat).getPosition(), current.getRadius()); 	
+				Point3D tempPointPackman=changeCoordsAcordnigToRadius
+						(current.getPosition(), fruits.get(toEat).getPosition(),current.getRadius()); 	
 				metaDataPack data= new metaDataPack(current.getId(), current.getSpeed(), current.getRadius());
 
 				packman newPackPosition =new packman(data,tempPointPackman);// the current packman after radius change
@@ -157,7 +182,13 @@ public abstract class algo {
 	}
 
 
-
+/**
+ * This function return the postion of p1 by moving in radius to p2
+ * @param p1 start postion 
+ * @param p2 end position
+ * @param radius radius in meter to progress 
+ * @return
+ */
 	public static Point3D changeCoordsAcordnigToRadius(Point3D p1,Point3D p2,double radius) {
 
 		MyCoords m=new MyCoords();
