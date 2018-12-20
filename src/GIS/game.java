@@ -2,7 +2,6 @@ package GIS;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import File_format.readCsv;
 import GUI.guiGame;
 import Geom.Point3D;
@@ -44,7 +43,8 @@ public class game {
 		ArrayList<packman> pp=new ArrayList<packman>();
 
 		for(int i=0;i<packmans.size();i++) {
-			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(), packmans.get(i).getSpeed(), packmans.get(i).getRadius());
+			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(),
+					packmans.get(i).getSpeed(), packmans.get(i).getRadius());
 			Point3D postionTemp = new Point3D(packmans.get(i).getX(), packmans.get(i).getY(), packmans.get(i).getZ());
 			packman temp = new packman(tempData, postionTemp);
 			pp.add(temp);

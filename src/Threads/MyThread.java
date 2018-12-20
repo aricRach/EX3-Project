@@ -27,13 +27,6 @@ public class MyThread extends Thread {
 	this.index=index;
 	}
 	
-	@Override
-	public String toString() {
-		return "MyThread [_name=" + _name + ", p=" + p + ", c=" + c + "]";
-	}
-
-	/** this is the parallel thing */
-
 	/**
 	 * this function pass all the path and send the coordinates (pixels) for paint with color
 	 */
@@ -48,4 +41,9 @@ public class MyThread extends Thread {
 			
 		 }
      }
+	
+	@Override
+	public String toString() {
+		return "MyThread [_name=" + _name + ", p=" + p + ", c=" + c + "]";
+	}
 }

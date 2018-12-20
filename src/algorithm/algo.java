@@ -40,10 +40,6 @@ public abstract class algo {
 		while(m.distance3d(f.getPosition(), p.getPosition())>p.getRadius()) {// send the original location  fruit
 			proceedToFruit(p,f);
 		}
-	//	f.getPosition().setEaten(true);//delete
-		//p is raduis p.getPos.flag=isFruit
-		//p.addToTrack(f.getPosition()); // add the position of the fruit the the path
-		//p.setPosition(f.getPosition()); // update the position of the packman to fruit's postion
 		System.out.println("total time: "+game.getTotalTime());
 		game.setScore(game.getScore()+f.getWeight());
 
@@ -69,7 +65,6 @@ public abstract class algo {
 	 * @param f  fruit that closer in raduis to packman
 	 * @return time
 	 */
-	// f is fruit that closer in raduis to packman
 	private static double getTime(packman p,fruit f) {
 
 		MyCoords m= new MyCoords(); 
@@ -82,11 +77,8 @@ public abstract class algo {
 
 			return 0;
 		}
-		//System.out.println("the time to eat check: "+dist/speedPack);
 		return dist/speedPack;
 	}
-
-	//****calcAll**
 
 	/**
 	 * This function get fruits and packmans and calculate the paths of each packman to the
@@ -131,8 +123,6 @@ public abstract class algo {
 			}
 			System.out.println("packman: "+packs.get(index).getId()+" win");
 			packman current = packs.get(index); // the packman that should eat the fruit stores in "toEat"
-			//int toEat=eatFruit(fruits,current);//return the index of fruit the packman should eat
-			//create temp fruit beacuse i want to remove the original fruit from the collection
 			fruit temp=new fruit(fruits.get(minToEat).getData(), fruits.get(minToEat).getPosition());
 			fruits.remove(minToEat);
 			packEatFruit(temp,current); //make the packman eat this fruit
@@ -200,7 +190,6 @@ public abstract class algo {
 			double lat = p1.x() + ((p2.x() - p1.x()) * ratio);
 			double lon= p1.y() + ((p2.y() - p1.y()) * ratio);
 
-			//System.out.println(lat+","+lon);
 			return new Point3D(lat,lon,p1.z());
 
 		}

@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import Coords.MyCoords;
 import GIS.fruit;
 import GIS.game;
@@ -46,14 +45,14 @@ public class Path2KML {
 	 * @throws IOException
 	 */
 	public void writeIcon(String str,String id,double speed,double radius,
-						  String time,double weight,double latitude,
-						  double longitude,double alt) throws IOException {
+			String time,double weight,double latitude,
+			double longitude,double alt) throws IOException {
 
 		if(str=="P") { // This is Packman
-		
-//			String timeStart = timestampToDate(startTimer);
+
 			writer.write("<Placemark>\n" + 
-					"<name><![CDATA["+"Packman" +id+"]]></name>\n" + "<TimeSpan><begin>"+timeInString+"</begin>"+"<end>"+"</end></TimeSpan>"+
+					"<name><![CDATA["+"Packman" +id+"]]></name>\n" + "<TimeSpan><begin>"+timeInString+
+					"</begin>"+"<end>"+"</end></TimeSpan>"+
 					"<description><![CDATA[Speed: <b>"+speed+"</b><br/>Radius: <b>"
 					+radius+"</b><br/>Date: <b>"
 					+time+"</b>]]></description><styleUrl>"+"pack"+"</styleUrl>\n" + 
@@ -64,13 +63,15 @@ public class Path2KML {
 		}
 
 		else if(str=="F") { // This is Fruit
-			
-			time = time.replace(" ", "T"); // for creating date format needed for KML 
+
+			// for creating date format needed for KML
+			time = time.replace(" ", "T");  
 			time+="Z";
 
 			writer.write("<Placemark>\n" + "<TimeSpan><begin>"+timeInString+"</begin>"+"<end>"+time+"</end></TimeSpan>"+
 					"<name><![CDATA["+"Fruit "+id+"]]></name>\n" +
-					"<description><![CDATA[Weight: <b>"+weight+"</b><br/>]]></description><styleUrl>"+"fruit"+"</styleUrl>\n" + 
+					"<description><![CDATA[Weight: <b>"+weight+"</b><br/>]]></description><styleUrl>"
+					+"fruit"+"</styleUrl>\n" + 
 					"<Point>\n" + 
 					"<coordinates>"+latitude+","+longitude+","+alt+"</coordinates></Point>\n" + 
 					"</Placemark>\n" + 
@@ -78,11 +79,13 @@ public class Path2KML {
 		}
 		else { // This is packman's path
 
+			// for creating date format needed for KML
 			time = time.replace(" ", "T");
 			time+="Z";
 
 			writer.write("<Placemark>\n" + 
-					"<name><![CDATA["+"Path" +id+"]]></name>\n" +"<TimeSpan><begin>"+time+"</begin>"+"<end>"+"</end></TimeSpan>"+
+					"<name><![CDATA["+"Path" +id+"]]></name>\n" +"<TimeSpan><begin>"+time+""
+					+ "</begin>"+"<end>"+"</end></TimeSpan>"+
 					"<description><![CDATA[Speed: <b>"+speed+"</b><br/>Radius: <b>"
 					+radius+"</b><br/>Date: <b>" 
 					+time+"</b>]]></description><styleUrl>"+"pack"+"</styleUrl>\n" + 
@@ -92,7 +95,7 @@ public class Path2KML {
 					"");
 		}
 	}
-	
+
 	/**
 	 * add the start of document with 2 pictures of Packman and Fruit
 	 * @throws IOException
@@ -102,9 +105,11 @@ public class Path2KML {
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		writer.write("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
 		writer.write("<Document>\n");
-		writer.write("<Style id=\"fruit\"><IconStyle><Icon><href>http://www.interload.co.il/upload/2414752.png</href></Icon></IconStyle></Style>\r\n" + 
+		writer.write("<Style id=\"fruit\"><IconStyle><Icon><href>"
+				+ "http://www.interload.co.il/upload/2414752.png</href></Icon></IconStyle></Style>\r\n" + 
 				"\r\n" + 
-				"<Style id=\"pack\"><IconStyle><Icon><href>http://www.interload.co.il/upload/4532827.png</href></Icon></IconStyle></Style>\r\n");
+				"<Style id=\"pack\"><IconStyle><Icon><href>"
+				+ "http://www.interload.co.il/upload/4532827.png</href></Icon></IconStyle></Style>\r\n");
 	}
 
 	/**
@@ -135,38 +140,43 @@ public class Path2KML {
 	 * @param pEaten ArrayList of packmans with list of eatenFruits for all packmans
 	 * @throws IOException
 	 */
-	public static void run(ArrayList<fruit> ff,ArrayList<packman> pp,solution s,String save,ArrayList<packman> pEaten) throws IOException {
-		
+	public static void run(ArrayList<fruit> ff,ArrayList<packman> pp,solution s,String save,ArrayList<packman> pEaten)
+			throws IOException {
+
 		MyCoords m = new MyCoords();
-		
+
 		if (pp.size()==0 && ff.size()==0) { // Exception for non elements
 
 			throw new RuntimeException("the game is empty please enter elements or open file");
 		}
-		
+
 		Path2KML k =new Path2KML(save);
 		k.writeStart();
 
 		for(int i=0; i<pp.size(); i++) {
-			
+
 			String id = pp.get(i).getId();
 			double speed = pp.get(i).getSpeed();
 			double radius=pp.get(i).getRadius();
 			double lat = pp.get(i).getPosition().x();
 			double lon = pp.get(i).getPosition().y();
 			double alt = pp.get(i).getPosition().z();
+			// Start point for calculate the distance between next Fruit in eatenFruit list
+			Point3D start = pp.get(i).getPosition();
+			// for set correct timeStamp for all path points
+			long currentTime = startTimer; 
 
-			Point3D start = pp.get(i).getPosition(); // Start point for calculate the distance between next Fruit in eatenFruit list
-			long currentTime = startTimer; // for set correct timeStamp for all path points
-			
 			for(int j=0; j<pEaten.get(i).getEatenFruits().size();j++) { // loop of all path of packmans
 
 				fruit f = pEaten.get(i).getEatenFruits().get(j);
-				double dist = m.distance3d(start, f.getPosition())-pEaten.get(i).getRadius(); // calculate the distance then minus radius from the sum
-				long timeStamp = (long) (dist/pEaten.get(i).getSpeed()); // divide the distance in speed of Packman for know how many steps took to eat
-				
-				currentTime+=timeStamp*1000; // multiply in 1000 for convert it to Seconds
-				pEaten.get(i).getEatenFruits().get(j).getPosition().setTimeStamp(currentTime); //set to the fruit point the timeStamp is eaten
+				 // calculate the distance then minus radius from the sum
+				double dist = m.distance3d(start, f.getPosition())-pEaten.get(i).getRadius();
+				// divide the distance in speed of Packman for know how many steps took to eat
+				long timeStamp = (long) (dist/pEaten.get(i).getSpeed()); 
+				// multiply in 1000 for convert it to Seconds
+				currentTime+=timeStamp*1000; 
+				//set to the fruit point the timeStamp is eaten
+				pEaten.get(i).getEatenFruits().get(j).getPosition().setTimeStamp(currentTime); 
 
 				//Data on fruits
 				id = pEaten.get(i).getEatenFruits().get(j).getId();
@@ -175,7 +185,7 @@ public class Path2KML {
 				double fruitLon = pEaten.get(i).getEatenFruits().get(j).getY();
 				double fruitAlt = pEaten.get(i).getEatenFruits().get(j).getZ();
 				String time = timestampToDate(pEaten.get(i).getEatenFruits().get(j).getPosition().getTimeStamp());
-				
+
 				k.writeIcon("F",id,0,0,time,weight,fruitLon,fruitLat,fruitAlt);
 
 				start = f.getPosition(); // update the position of start Point to next fruit
@@ -189,8 +199,9 @@ public class Path2KML {
 			int t=delayPath;
 
 			for(int j=1; j<s.getPathCollection().get(i).getPath().size();j++) {
-
-				s.getPathCollection().get(i).getPath().get(j).setTimeStamp(getStartTimer()+(t++)*1000); // setTimeStamp for showing
+				// setTimeStamp for showing
+				s.getPathCollection().get(i).getPath().get(j).setTimeStamp(getStartTimer()+(t++)*1000); 
+				
 				double lat=s.getPathCollection().get(i).getPathI(j).x();
 				double lon=s.getPathCollection().get(i).getPathI(j).y();
 				double alt=s.getPathCollection().get(i).getPathI(j).z();
@@ -206,7 +217,7 @@ public class Path2KML {
 	}
 
 	// Getters and Setters //
-	
+
 	public static long getStartTimer() {
 		return startTimer;
 	}
@@ -215,7 +226,7 @@ public class Path2KML {
 		Path2KML.startTimer = startTimer;
 	}
 
-	
+
 	public static void main(String[] args) throws IOException { // optional to create kml file from this class
 
 		ArrayList<packman> pp=new ArrayList<packman>();

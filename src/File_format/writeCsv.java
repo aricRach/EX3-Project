@@ -22,10 +22,8 @@ public class writeCsv {
 	 */
 	public static String Write(ArrayList<fruit> ff,ArrayList<packman> pp) throws IOException {
 		
-		converts c = new converts();
-		
-	//	ArrayList<packman> pCoords=c.pixels2CoordsPack(pp);
-		//ArrayList<fruit> fCoords=c.pixels2CoordsFruit(ff);
+	   converts c = new converts();
+
 	   ArrayList<packman> pCoords=converts.pixels2CoordsPack(pp);
        ArrayList<fruit> fCoords=converts.pixels2CoordsFruit(ff);
 		
@@ -42,7 +40,8 @@ public class writeCsv {
 					fCoords.get(i).getZ()+","+fCoords.get(i).getWeight()+","+"\n";
 		}
 		
-		str+="F,"+fCoords.get(fCoords.size()-1).getId()+","+fCoords.get(fCoords.size()-1).getX()+","+fCoords.get(fCoords.size()-1).getY()+","+
+		str+="F,"+fCoords.get(fCoords.size()-1).getId()+","+fCoords.get(fCoords.size()-1).getX()+","+
+		fCoords.get(fCoords.size()-1).getY()+","+
 				fCoords.get(fCoords.size()-1).getZ()+","+fCoords.get(fCoords.size()-1).getWeight();		
 		
 		return str;

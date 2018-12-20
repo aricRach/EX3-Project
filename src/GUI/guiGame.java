@@ -185,7 +185,8 @@ public class guiGame extends JFrame
 					solution solutionPixel=converts.solutionToPixel(s); // convert to pixel for show in GUI
 					jLabel.paintEat(solutionPixel);
 
-				JOptionPane.showMessageDialog(null, "total time is: "+game.getTotalTime()+"\n"+"total score is: "+game.getScore());//delete
+				JOptionPane.showMessageDialog(null, "total time is: "
+				+game.getTotalTime()+"\n"+"total score is: "+game.getScore());//delete
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -218,8 +219,6 @@ public class guiGame extends JFrame
 			public void windowResized(WindowEvent evt)
 			{
 				jLabel.repaint();
-				//				System.out.println(jLabel.getWidth());
-				//				System.out.println(jLabel.getHeight());
 			}
 		});
 
@@ -362,11 +361,6 @@ public class guiGame extends JFrame
 			}
 		});
 
-//		init();
-//
-//		setSize(850,500);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setVisible(true);
 		jLabel.repaint();
 
 	}
@@ -476,40 +470,12 @@ class MyJLabel extends JLabel implements MouseListener
 		// update the pixels after stretch
 		reSizeFruit();
 		reSizePackman();
+		
 		oldHeight=getHeight();
 		oldWidth=getWidth();
 
-//		Color c=new Color(251,0,0); // red apple
-//		g.setColor(c);
-//
-//		int sizeFruit=guiGame.fruitSize(); // get the number of fruits we draw
-//		int i=0; // index of the arrayList
-//		while(i<sizeFruit) { // there are still fruits to show
-//
-//			int r = 10;
-//			guiGame.x = (int)guiGame.getFruitArr().get(i).getX() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
-//			guiGame.y = (int)guiGame.getFruitArr().get(i).getY() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
-//
-//			g.fillOval(guiGame.x, guiGame.y, r, r);
-//
-//			i++;
-//		}
 		paintFruits(g);
 		paintPackmans(g);
-
-//		Color c=new Color(0,0,204); // blue packman
-//		g.setColor(c);
-//		int sizePackmans=guiGame.packSize();
-//		int j=0;
-//		while(j<sizePackmans) {//there are still packmans to show
-//
-//			int r = 15;
-//			guiGame.x = (int)guiGame.getPackArr().get(j).getX() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
-//			guiGame.y = (int)guiGame.getPackArr().get(j).getY() - (r / 2);//instead of casting should be pixels cordinate!!!!!!!!!!!
-//			g.fillOval(guiGame.x, guiGame.y, r, r);
-//			j++;
-//		}
-
 	}
 
 	/**
@@ -540,7 +506,6 @@ class MyJLabel extends JLabel implements MouseListener
 	 */
 	public void paintFruits(Graphics g) {
 
-		//Graphics g=this.getGraphics();
 		Color c=new Color(251,0,0); //red apple
 		g.setColor(c);
 
@@ -561,7 +526,6 @@ class MyJLabel extends JLabel implements MouseListener
 	 */
 	public void paintPackmans(Graphics g) {
 
-		//Graphics g=this.getGraphics();
 		Color c=new Color(0,0,204); //blue Sea
 		g.setColor(c);
 		int sizePackmans=guiGame.packSize(); // get the number of fruits we draw
@@ -600,7 +564,6 @@ class MyJLabel extends JLabel implements MouseListener
 			k++;
 
 		}
-		//JOptionPane.showMessageDialog(null, "total time is: "+game.getTotalTime());//delete
 	}
 
 	/**
