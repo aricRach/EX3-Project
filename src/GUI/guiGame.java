@@ -518,10 +518,9 @@ class MyJLabel extends JLabel implements MouseListener
 			int r = 10;
 			guiGame.x = (int)guiGame.getFruitArr().get(i).getX() - (r / 2); // get the X-Axis pixel
 			guiGame.y = (int)guiGame.getFruitArr().get(i).getY() - (r / 2); // get the Y-Axis pixel
-			//g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location
 			Image packman;
 			try {
-				packman = ImageIO.read(new File("\\lib\\rsz_15fruit.png"));
+				packman = ImageIO.read(new File("rsz_15fruit.png"));
 				g.drawImage(packman, guiGame.x, guiGame.y,this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -545,10 +544,9 @@ class MyJLabel extends JLabel implements MouseListener
 			int r = 15;
 			guiGame.x = (int)guiGame.getPackArr().get(j).getX() - (r / 2); // get the X-Axis pixel
 			guiGame.y = (int)guiGame.getPackArr().get(j).getY() - (r / 2); // get the Y-Axis pixel
-			//g.fillOval(guiGame.x, guiGame.y, r, r); // call function that paint oval in (x,y) location	
 			Image packman;
 			try {
-				packman = ImageIO.read(new File("\\lib\\rsz_15packman.png"));
+				packman = ImageIO.read(new File("rsz_15packman.png"));
 				g.drawImage(packman, guiGame.x, guiGame.y,this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

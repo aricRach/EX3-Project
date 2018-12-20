@@ -22,7 +22,7 @@ public class map {
 	// Constructor //
 	public map() throws IOException {
 
-		image= ImageIO.read(new File("\\lib\\Ariel1.png"));
+		image= ImageIO.read(new File("Ariel1.png"));
 		width=image.getWidth(null);
 		height=image.getHeight(null);
 		start=new Point3D(32.105835, 35.202219,0);
