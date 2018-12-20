@@ -1,15 +1,20 @@
 package GIS;
 
+/**
+ * this class contains all the data of Packman
+ * @author Tal and Aric
+ */
 
 public class metaDataPack { // for not creating objects of 
 
 	private String id;
 	private double speed; // Speed of Packman
-	private double radius; // radius
-	private double score; // Score of fruits
-	private double time;// agg time to eat fruit
+	private double radius; // radius of Packman
+	private double score; // Score of all eaten fruits
+	private double time; // aggregate time for eating his fruits
 	
 	
+	// Constructor //
 	public metaDataPack(String id,double speed,double radius) {
 		this.id=id;
 		this.speed=speed;
@@ -17,6 +22,8 @@ public class metaDataPack { // for not creating objects of
 		this.time=0;
 		this.score=0;
 	}
+	
+	// Getters and Setters //
 
 	public String getId() {
 		return id;
@@ -63,8 +70,4 @@ public class metaDataPack { // for not creating objects of
 		return "metaDataPack [id=" + id + ", speed=" + speed + ", radius=" + radius + ", score=" + score + ", time="
 				+ time + "]";
 	}
-	
-	
-	
-	
 }

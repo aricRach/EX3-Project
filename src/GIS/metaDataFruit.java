@@ -1,16 +1,23 @@
 package GIS;
 
+/**
+ * this class contains all the data of Fruit
+ * @author Tal and Aric
+ */
+
 public class metaDataFruit {
 
 	private String id; // id of Fruit
 	private double weight; // Weight of fruit 
 	
+	// Constructor //
 	public metaDataFruit(String id,double weight) {
 		
 		this.id=id;
 		this.weight=weight;
-		
 	}
+	
+	// Getters and Setters //
 	
 	public String getId() {
 		return id;
@@ -29,7 +36,4 @@ public class metaDataFruit {
 	public String toString() {
 		return "metaDataFruit [id=" + id + ", weight=" + weight + "]";
 	}
-	
-	
-	
 }

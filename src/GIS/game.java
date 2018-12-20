@@ -10,11 +10,10 @@ import Map.converts;
 import algorithm.algo;
 
 /**
- * This class represents game that conatains fruits and packmans each of them has position and
- * meta data accociated with them,
+ * This class represents game that contains Fruits and Packmans each of them has position and
+ * meta data associated with them,
  * the game also include general score according to the Weight of the eaten fruits and the start time
- * @author aric and tal
- *
+ * @author Aric and Tal
  */
 
 public class game {
@@ -25,23 +24,57 @@ public class game {
 	private static double score;
 	private static long startTimer;
 
-
+	// Constructor //
 	public game(ArrayList<fruit>f,ArrayList<packman>p) {
-		//static access
+	
+		// static access:
 		game.fruits=f;
 		game.packmans=p;
 		game.totalTime=0;
 		game.score=0;
 		game.startTimer=System.currentTimeMillis();
 	}
+	
+	/**
+	 * this function create deep copy to ArrayList of packmans in this game
+	 * @return new ArrayList 
+	 */
+	public static ArrayList<packman> copyPack(){
+		
+		ArrayList<packman> pp=new ArrayList<packman>();
+
+		for(int i=0;i<packmans.size();i++) {
+			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(), packmans.get(i).getSpeed(), packmans.get(i).getRadius());
+			Point3D postionTemp = new Point3D(packmans.get(i).getX(), packmans.get(i).getY(), packmans.get(i).getZ());
+			packman temp = new packman(tempData, postionTemp);
+			pp.add(temp);
+		}
+		return pp;
+	}
+	
+	/**
+	 * this function create deep copy to ArrayList of fruits in this game
+	 * @return new ArrayList 
+	 */
+	public static ArrayList<fruit> copyFruit(){
+		
+		ArrayList<fruit> ff=new ArrayList<fruit>();
+
+		for(int i=0;i<fruits.size();i++) {
+			metaDataFruit tempData= new metaDataFruit(fruits.get(i).getId(), fruits.get(i).getWeight());
+			Point3D postionTemp = new Point3D(fruits.get(i).getX(),fruits.get(i).getY(),fruits.get(i).getZ());
+			fruit temp = new fruit(tempData, postionTemp);
+			ff.add(temp);
+		}
+		return ff;
+	}
 
 	/**
-	 * This function initialize the game data, its read from csv file and then create
-	 * Arraylist of fruits and packmans that store all the data
+	 * This function initialize the game data, read from csv file and then create
+	 * ArrayList of fruits and packmans that store all the data
 	 * @param path the csv input file
 	 * @throws IOException
 	 */
-
 	public static void createGameCollection(String path) throws IOException{
 
 		System.out.println("create game");
@@ -74,50 +107,24 @@ public class game {
 		}
 	}
 
+	/**
+	 * this function call for open Gui window with packmans and fruits ArrayLists
+	 * @throws IOException
+	 */
 	public void paintGame() throws IOException {
 
-		guiGame demo = new guiGame();
-		//converts c=new converts(); 
+		guiGame demo = new guiGame(); // create current Gui 
 
-		// create fruit and packmans collection with PIXEL coords
+		// create fruit and packmans collection with Pixel coordinates
 		// in order to send the collections to createGuiAndShow
+		
 		ArrayList<fruit> fruitPix=converts.Coords2PixelFruit(fruits);
 		ArrayList<packman> packPix=converts.Coords2PixelPack(packmans);
 
-
-		//now i will send to createAndShowGUI2 the colections with the pixel coordinates
 		demo.openFileGUI(fruitPix,packPix);
 	}
-	
-	public static ArrayList<packman> copyPack(){
-		
-		ArrayList<packman> pp=new ArrayList<packman>();
 
-		for(int i=0;i<packmans.size();i++) {
-			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(), packmans.get(i).getSpeed(), packmans.get(i).getRadius());
-			Point3D postionTemp = new Point3D(packmans.get(i).getX(), packmans.get(i).getY(), packmans.get(i).getZ());
-			packman temp = new packman(tempData, postionTemp);
-			pp.add(temp);
-		}
-		return pp;
-	}
-	
-	public static ArrayList<fruit> copyFruit(){
-		
-		ArrayList<fruit> ff=new ArrayList<fruit>();
-
-		for(int i=0;i<fruits.size();i++) {
-			metaDataFruit tempData= new metaDataFruit(fruits.get(i).getId(), fruits.get(i).getWeight());
-			Point3D postionTemp = new Point3D(fruits.get(i).getX(),fruits.get(i).getY(),fruits.get(i).getZ());
-			fruit temp = new fruit(tempData, postionTemp);
-			ff.add(temp);
-		}
-		return ff;
-	}
-	
-
-
-	//getters and setters
+	// Getters and Setters //
 
 	public static double getTotalTime() {
 		return totalTime;
@@ -135,32 +142,25 @@ public class game {
 		game.score = score;
 	}
 
-
 	public static long getStartTimer() {
 		return startTimer;
 	}
 
-
 	public static void setStartTimer(long startTimer) {
 		game.startTimer = startTimer;
 	}
+	
 	public static void main(String[] args) throws IOException { 
 
 		ArrayList<packman> pack=new ArrayList<packman>();
 		ArrayList<fruit> fruits=new ArrayList<fruit>();
 
 		game g=new game(fruits,pack);
+		String path = "D:\\מדעי המחשב\\שנה ב\\סמסטר א\\מונחה עצמים\\myMath Project\\Ex 3\\Ex3_data\\game_1543684662657.csv";
 
-		game.createGameCollection("C:\\Users\\aric\\Desktop\\מד"
-				+ "עי המחשב\\שנה ב\\תכנות מונחה עצמים\\מטלה 3\\מטלה 3 pdf\\Ex3\\Ex3_data\\data\\game_1543693911932_a.csv");
+		game.createGameCollection(path);
 		
-		//solution s=al.calcAll(fCoords, pCoords);
 		algo.calcAll(fruits, pack);
-		/*solution answer2=
-		for(int i=0;i<answer2.getPathCollection().size();i++) {
-			System.out.println("path of packman number " +pack.get(i).getId()+":");
-			System.out.println(answer2.getPathCollection().get(i));
-		}*/
 		
 		for(int i=0;i<pack.size();i++) {
 			
@@ -168,10 +168,8 @@ public class game {
 					+ " "+pack.get(i).getPoints()+" the time it takes is: "+pack.get(i).getTime());
 		}
 		
-						
-		System.out.println(game.totalTime);
-		System.out.println(game.score);
+		System.out.println("the Total time is: "+game.totalTime);
+		System.out.println("the game score is: "+game.score);
 		
-    	//g.paintGame(); //if we want to start this fucniton we need to init and show gui
 	}
 }

@@ -44,8 +44,5 @@ public class point2D {
 	public void setTime(long time) {
 		this.time = time;
 	}
-	
-	
-
 
 }

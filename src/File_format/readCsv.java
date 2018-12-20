@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 /**
  * This class reads from csv file and save each line in arrayList
- * @author aric and Tal 
+ * @author Aric and Tal 
  */
 
 public class readCsv {
 
 	private final BufferedReader reader;
 
+	// Constructor - receive csv File //
 	public readCsv(String input) throws IOException {
 		reader = new BufferedReader(new FileReader(input));
 	}
@@ -56,6 +57,12 @@ public class readCsv {
 		return strings; // return the arrayList of all the lines in the csv file as strings
 	}*/
 	
+	/**
+	 * this class scan the csv File that received in constructor and read all lines and insert
+	 * data to ArrayList of Strings
+	 * @return ArrayList that contains all csv elements
+	 * @throws IOException
+	 */
 	public ArrayList<String> readCsvGame() throws IOException {
 
 		ArrayList<String> strings=new ArrayList<String>();

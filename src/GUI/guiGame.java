@@ -40,6 +40,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+/**
+ * this class represent Gui Window with menuBar , options such as : open Csv , save Csv , save KML , run,
+ * showing the progress of the game(packmans in their way to eat the fruits)
+ * @author Tal and Aric
+ */
 
 public class guiGame extends JFrame 
 {

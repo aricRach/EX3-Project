@@ -1,27 +1,36 @@
 package Map;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
-
 import Coords.MyCoords;
 import GIS.fruit;
 import GIS.metaDataFruit;
 import GIS.metaDataPack;
 import GIS.packman;
 import GIS.solution;
-import GUI.guiGame;
 import Geom.Point3D;
+
+/**
+ * this class contains all converts from pixels to Coordinates and vice versa 
+ * @author Tal and Aric
+ */
 
 public class converts {
 
 	static map m ;
+	
+	// Constructor //
 	public converts() throws IOException {
 
 		m= new map();
 	}
-	
 
+	/**
+	 * this function convert Pixels to Coordinates
+	 * @param x pixel on X-axis
+	 * @param y pixel on Y-axis
+	 * @return Point3D after convert to [lat,lon,alt]
+	 */
 	public static Point3D pixel2Coords(double x,double y) {
 
 		double dx=x/m.width;
@@ -30,25 +39,21 @@ public class converts {
 		double totalLon=m.end.y()-m.start.y();
 		double totalLat=m.end.x()-m.start.x();
 
-//		System.out.println("total Lon:"+totalLon);
-//		System.out.println("total lat: "+totalLat);
-
 		double goLon=totalLon*dx;
 		double goLat=totalLat*dy;
-
-
-//		System.out.println("go Lon:"+goLon);
-//		System.out.println("go lat: "+goLat);
-
 
 		double answer1=m.start.y()+goLon;
 		double answer2=m.start.x()+goLat;
 
-//		System.out.println(answer2 +","+answer1);
-
 		return new Point3D(answer2,answer1,0);
 	}
-
+	
+	/**
+	 * this function convert Coordinates to Pixels
+	 * @param x coordinate value
+	 * @param y coordinate value
+	 * @return Point3D after convert to [lat,lon,alt]
+	 */
 	public static Point3D coords2Pixel(double x,double y) {
 
 		double distLat = m.start.x()-m.end.x();
@@ -56,24 +61,21 @@ public class converts {
 		double dx=(m.start.x()-x)/(distLat);
 		double dy=(y-m.start.y())/(distLon);
 
-		//			System.out.println("total Lon:"+totalLon);
-		//			System.out.println("total lat: "+totalLat);
-
 		double goY=(m.height*dx);
 		double goX=(m.width*dy);
-
-		//157 435
-		//			System.out.println("go Lon:"+goLon);
-		//			System.out.println("go lat: "+goLat);
-
 
 		int answer1=(int)(goY);
 		int answer2=(int)(goX);
 
-//		System.out.println(answer2 +","+answer1);
 		return new Point3D(answer2,answer1,0);	
 	}
-
+		
+	/**
+	 * this function calculate the distance between two pixels
+	 * @param x pixel on X-axis
+	 * @param y pixel on Y-axis
+	 * @return the distance
+	 */
 	public static double distanceBet2Pixels(pix a,pix b) {
 
 		Point3D p1=pixel2Coords(a.x(),a.y());
@@ -84,7 +86,13 @@ public class converts {
 
 		return distance;
 	}
-
+	
+	/**
+	 * this function calculate the angle/azimuth between two pixels
+	 * @param x pixel on X-axis
+	 * @param y pixel on Y-axis
+	 * @return the angle
+	 */
 	public static double angleBet2Pixels(pix a,pix b) {
 
 		Point3D p1=pixel2Coords(a.x(),a.y());
@@ -96,8 +104,12 @@ public class converts {
 		return angle;
 	}
 
-	// 2 Function of Coords to Pixels
-	
+	/**
+	 * this function scan all the elements in the current ArrayList and convert all the packmans data 
+	 * from Coordinates to Pixels
+	 * @param pp ArrayList that contains packmans
+	 * @return new arrayList of packmans with data in Pixels
+	 */
 	public static ArrayList<packman> Coords2PixelPack(ArrayList<packman> pp ) {
 
 		int packSize=pp.size();
@@ -125,6 +137,12 @@ public class converts {
 		return packPix;
 	}
 
+	/**
+	 * this function scan all the elements in the current ArrayList and convert all the fruits data 
+	 * from Coordinates to Pixels
+	 * @param ff ArrayList that contains fruits
+	 * @return new arrayList of fruits with data in Pixels
+	 */
 	public static ArrayList<fruit> Coords2PixelFruit(ArrayList<fruit> ff ) throws IOException {
 
 
@@ -147,8 +165,12 @@ public class converts {
 		return fruitPix;
 	}
 	
-	// 2 Function of Pixel to Coords
-
+	/**
+	 * this function scan all the elements in the current ArrayList and convert all the fruits data 
+	 * from Pixels to Coordinates
+	 * @param ff ArrayList that contains fruits
+	 * @return new arrayList of fruits with data in Coordinates
+	 */
 	public static ArrayList<fruit> pixels2CoordsFruit(ArrayList<fruit> ff ) throws IOException {
 
 		int fruitSize=ff.size();
@@ -170,6 +192,12 @@ public class converts {
 		return fruitCoords;
 	}
 
+	/**
+	 * this function scan all the elements in the current ArrayList and convert all the packmans data 
+	 * from Pixels to Coordinates
+	 * @param pp ArrayList that contains packmans
+	 * @return new arrayList of packmans with data in Coordinates
+	 */
 	public static ArrayList<packman> pixels2CoordsPack(ArrayList<packman> pp ) {
 
 		int packSize=pp.size();
@@ -197,6 +225,11 @@ public class converts {
 		return packCoords;
 	}
 		
+	/**
+	 * this function scan all path Collections in the solution and convert from Coordinates to pixels
+	 * @param s Solution that contains all packmans path
+	 * @return new Solution in pixels
+	 */
 	public static solution solutionToPixel(solution s){
 		
 		int size=s.getPathCollection().size();
@@ -204,17 +237,16 @@ public class converts {
 		solution pixSolution =new solution();
 		while(size>i) {
 				
-			path p=new path();
 			//create new path
+			path p=new path();
+			
 			for(int j=0;j<s.getPathCollection().get(i).getPath().size();j++) {
 				
 				Point3D temp=s.getPathCollection().get(i).getPathI(j);
 				temp=coords2Pixel(temp.x(), temp.y());
 			
-				p.add(temp);
 				//add point to path
-				
-				//s.getPathCollection().get(i).getPathI(j).setLocationXY(temp); //change the coords point to pixel point
+				p.add(temp);
 			}
 			
 			//add path to solution
@@ -222,11 +254,6 @@ public class converts {
 			
 			i++;
 		}
-		
 		return pixSolution;
-		
 	}
-
-
-
 }

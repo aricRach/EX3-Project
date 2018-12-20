@@ -1,22 +1,21 @@
 package GIS;
 
 import java.util.ArrayList;
-
 import Map.path;
 
-public class solution {
+/**
+ * this class contains all the packmans solution - the ways of all packmans to fruits
+ * @author Tal and Aric
+ */
 
+public class solution {
 	
 	private ArrayList<path> pathCollection;
 	
+	// Constructor //
 	public solution() {
 		
 		pathCollection=new ArrayList<path>();
-	}
-	
-	public int getSize() {
-		
-		return pathCollection.size();
 	}
 	
 	public void add(path p) {
@@ -24,6 +23,13 @@ public class solution {
 		pathCollection.add(p);
 	}
 	
+	// Getters and Setters //
+	
+	public int getSize() {
+		
+		return pathCollection.size();
+	}
+
 	public ArrayList<path> getPathCollection(){
 		
 		return pathCollection;
@@ -33,8 +39,4 @@ public class solution {
 	public String toString() {
 		return "solution [pathCollection=" + pathCollection + "]";
 	}
-	
-	
-	
-	
 }

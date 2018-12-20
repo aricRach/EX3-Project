@@ -13,6 +13,11 @@ import GIS.solution;
 import Geom.Point3D;
 import algorithm.algo;
 
+/**
+ * this class create Kml from ArrayLists of fruits and packmans
+ * @author Tal and Aric
+ *
+ */
 public class Path2KML {
 
 	private static long startTimer;

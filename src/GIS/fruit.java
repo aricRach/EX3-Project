@@ -2,23 +2,30 @@ package GIS;
 
 import Geom.Point3D;
 
+/**
+ * this class represent Fruit object each of fruit has : id,position and weight associated with him 
+ * @author Tal and Aric
+ */
+
 public class fruit {
 
 	private Point3D position;
 	private metaDataFruit data;
 	
-	
+	// Constructor //
 	public fruit(metaDataFruit data,Point3D position) {
 		
 		this.data=data;
 		this.position=position;
 	}
 	
+	// Getters and Setters //
 	
 	public metaDataFruit getData() {
 		
 		return data;
 	}
+	
 	public Point3D getPosition() {
 		
 		return position;
@@ -68,8 +75,4 @@ public class fruit {
 	public String toString() {
 		return "fruit [position=" + position + ", data=" + data + "]";
 	}
-	
-
-	
-	
 }
