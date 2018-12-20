@@ -214,7 +214,7 @@ public class guiGame extends JFrame
 			}
 		});
 
-		setSize(850,500); // default bounds of map picture
+		setSize(imageIcon.getIconWidth(),imageIcon.getIconHeight()); // default bounds of map picture
 		System.out.println(JLabel.HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);

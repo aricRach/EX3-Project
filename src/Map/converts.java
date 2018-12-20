@@ -79,7 +79,6 @@ public class converts {
 		Point3D p1=pixel2Coords(a.x(),a.y());
 		Point3D p2=pixel2Coords(b.x(),b.y());
 
-		//או להשתמש במרחק רגיל!
 		MyCoords m =new MyCoords();
 		double distance=m.distance3d(p1, p2);
 
@@ -197,9 +196,7 @@ public class converts {
 
 		return packCoords;
 	}
-	
-	//delete
-	
+		
 	public static solution solutionToPixel(solution s){
 		
 		int size=s.getPathCollection().size();

@@ -51,7 +51,7 @@ class fileTest {
 	public void readFromCsvTest() throws IOException {
 
 		readCsv csv =new readCsv(pathName);
-		ArrayList<String> csvLines=csv.readCsvGame();
+		ArrayList<String> csvLines=csv.readCsvGame();// each line is element(string)
 
 		int expecteds =15;
 		int actuals=csvLines.size();
