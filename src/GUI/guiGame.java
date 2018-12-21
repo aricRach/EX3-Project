@@ -521,7 +521,7 @@ class MyJLabel extends JLabel implements MouseListener
 			Image packman;
 			try {
 				packman = ImageIO.read(new File("rsz_15fruit.png"));
-				g.drawImage(packman, guiGame.x, guiGame.y,this);
+				g.drawImage(packman, guiGame.x-40, guiGame.y-21,this);//aric
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -547,7 +547,7 @@ class MyJLabel extends JLabel implements MouseListener
 			Image packman;
 			try {
 				packman = ImageIO.read(new File("rsz_15packman.png"));
-				g.drawImage(packman, guiGame.x, guiGame.y,this);
+				g.drawImage(packman, guiGame.x-40, guiGame.y-21,this);//aric
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -599,7 +599,7 @@ class MyJLabel extends JLabel implements MouseListener
 
 			double speed=guiGame.packmans.get(index).getSpeed();
 			Thread.sleep((long) (15/speed));
-			g.fillOval(x, y, 3, 3);
+			g.fillOval(x-40, y-21, 3, 3);// aric
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -638,8 +638,8 @@ class MyJLabel extends JLabel implements MouseListener
 	public void mousePressed(MouseEvent e) {
 
 		guiGame.pressedTime = System.currentTimeMillis();
-		guiGame.x = e.getX(); // pixel on X-axis
-		guiGame.y = e.getY(); // pixel on Y-axis
+		guiGame.x = e.getX()+40; // pixel on X-axis aric
+		guiGame.y = e.getY()+21; // pixel on Y-axis aric
 	}
 
 	@Override
@@ -652,7 +652,7 @@ class MyJLabel extends JLabel implements MouseListener
 		
 		System.out.println("mouse Clicked");
 		guiGame.timeClicked = System.currentTimeMillis() - guiGame.pressedTime;
-		System.out.println("("+ e.getX() + "," + e.getY() +")");
+		System.out.println("("+ guiGame.x + "," + e.getY() +")");
 
 		if (guiGame.timeClicked >= 500) {
 
