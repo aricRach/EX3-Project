@@ -24,6 +24,7 @@ import Threads.MyThread;
 import algorithm.algo;
 import java.awt.Color;
 import java.awt.FileDialog;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -50,9 +51,6 @@ import java.util.ArrayList;
 
 public class guiGame extends JFrame 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// package friendly elements
 	static JMenuBar wholeMenuBar;
@@ -237,7 +235,7 @@ public class guiGame extends JFrame
 
 	public void readFileDialog() throws IOException {
 
-		this.setExtendedState(this.MAXIMIZED_BOTH); // Full screen when click on Open file
+		this.setExtendedState(Frame.MAXIMIZED_BOTH); // Full screen when click on Open file
 
 		// try read from the file
 		FileDialog fd = new FileDialog(this, "Open text file", FileDialog.LOAD);
@@ -409,6 +407,8 @@ public class guiGame extends JFrame
 
 class MyJLabel extends JLabel implements MouseListener
 {
+
+	private static final long serialVersionUID = 1L;
 	ImageIcon imageIcon;
 	private int oldWidth; // for stretch the screen
 	private int oldHeight; // for stretch the screen  
