@@ -50,6 +50,10 @@ import java.util.ArrayList;
 
 public class guiGame extends JFrame 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// package friendly elements
 	static JMenuBar wholeMenuBar;
 	JMenu fileMenu;

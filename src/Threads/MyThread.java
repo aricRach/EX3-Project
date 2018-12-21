@@ -1,10 +1,6 @@
 package Threads;
 
 import java.awt.Color;
-
-import javax.swing.JOptionPane;
-
-import GIS.game;
 import GUI.guiGame;
 import Map.path;
 
@@ -42,7 +38,7 @@ public class MyThread extends Thread {
 		 }
      }
 	
-	@Override
+	@Override 
 	public String toString() {
 		return "MyThread [_name=" + _name + ", p=" + p + ", c=" + c + "]";
 	}
