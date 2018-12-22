@@ -65,9 +65,11 @@ this class contains two elements x and y that represents pixels in image.
 
 - **Algo**
 This is the department of calculations related to the performance of the game in this department is carried out a major algorithm to calculate the preferred way for each Pacman so that all the fruits will be eaten as fast as possible considering the time it takes each Pacman to reach the fruit.
+the main function is: ###### *calcAll :*
 pass all the packmans for each of them find the index of fruit he should eat(the fast time to eat some fruit) calculate the time it takes and check if this time is the minimum(check for each packman with all the fruits). After this loop we found the fast packman to eat some fruit .call the function:
 ###### *packEatFruit:*
-add this fruit to the eatenFruit array of the packman. Add the weight of the fruit to his score and the time it takes to his total time.
+add this fruit to the eatenFruit array of the packman. Add the weight of the fruit to his score and the time it takes to his total time.call the function:
 ###### *Use proccedd to fruit:*
 function( Progress to the fruit each second by move in radius, set the packman position according to his current position after each step and add this position to his path).after that the fruit will remove from the collection of the fruits.
 Update the game total score which will be the previous one plus the current weight of this fruit.
+-Repeat as long as there are fruits
