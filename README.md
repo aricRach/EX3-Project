@@ -54,7 +54,7 @@ this button remove all the previous data that stores in the game and shows as em
 ###### *Save as kml-*
 this button allow as to save all the data that stores in the game as kml file. This kml file has the possibility to show the game's course including the motion of the pack-mans depending on time.
 
-- **Map: **
+- **Map**
 This class holding the information of our fame map, the coordinates were taken from the specific location that the picture depicts and therefore each calculation of distance in the game is actually a distance calculation that relates to this place.
 ###### *Converts-*
 including all the converts function from pixels to coordinates and vice versa. We can converts sole element or even collection of elements from both types.in addition this class helps as to calculate the distance and angle between two pixels.
@@ -65,11 +65,12 @@ this class contains two elements x and y that represents pixels in image.
 
 - **Algo**
 This is the department of calculations related to the performance of the game in this department is carried out a major algorithm to calculate the preferred way for each Pacman so that all the fruits will be eaten as fast as possible considering the time it takes each Pacman to reach the fruit.
-the main function is: ###### *calcAll :*
-pass all the packmans for each of them find the index of fruit he should eat(the fast time to eat some fruit) calculate the time it takes and check if this time is the minimum(check for each packman with all the fruits). After this loop we found the fast packman to eat some fruit .call the function:
-###### *packEatFruit:*
-add this fruit to the eatenFruit array of the packman. Add the weight of the fruit to his score and the time it takes to his total time.call the function:
-###### *Use proccedd to fruit:*
-function( Progress to the fruit each second by move in radius, set the packman position according to his current position after each step and add this position to his path).after that the fruit will remove from the collection of the fruits.
+the main function is:calcAll
+###### *calcAll :*
+pass all the packmans for each of them find the index of fruit he should eat(the fast time to eat some fruit) calculate the time it takes and check if this time is the minimum(check for each packman with all the fruits). After this loop we found the fast packman to eat some fruit .
+###### *Use packEatFruit function:*
+add this fruit to the eatenFruit array of the packman. Add the weight of the fruit to his score and the time it takes to his total time.
+###### *Use proccedd to fruit function:*
+(Progress to the fruit each second by move in radius, set the packman position according to his current position after each step and add this position to his path).after that the fruit will remove from the collection of the fruits.
 Update the game total score which will be the previous one plus the current weight of this fruit.
 -Repeat as long as there are fruits
