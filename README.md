@@ -6,7 +6,12 @@ Our project is a pack-man game that include fruits and pack-mans each of them ha
 
 The goal of the game is to calculate the time taken for all the Pack-mans together to eat all the fruits, in addition each Pacman collects points depending on the weight of the fruits he ate.
 
+
+<img src="http://www.interload.co.il/upload/7040619.jpg" width="750" height="450" >
+
+
 **There are two possibilities for creating game:**
+
 1.open csv file
 
 2.create game by yourself: **Create fruit by short press, create pack-man long press.**
@@ -25,12 +30,17 @@ We will use this class mainly when we want to calculate a distance between two t
 - **fileFormat:** 
 
 ###### *read csv-*
-Helps us to read csv files using the information written there to create a game that contains the pack-mans and fruits that appear in the file, 
+Helps us to read csv files using the information written there to create a game that contains the pack-mans and fruits that appear in the file.
+
+<img src="http://www.interload.co.il/upload/8924574.jpg" width="500" height="200" >
+
 ###### *write csv-*
 helps us to save the game information in a csv file by reading the game information and creating an appropriate string to be saved as a csv.
 ###### *Path2KML-*
 One more option is to save the information of the game as kml file This file will store information including the location of fruits and pack-mans on the map, the paths of the them on the way to eating the fruit, and the time at which the fruits were eaten.
 This class allows the game to be viewed as a kml file with the possibility to see the game's course including the motion of the pack-mans and the eating depending on time.
+
+<img src="http://www.interload.co.il/upload/4254341.jpg" width="700" height="400" >
 
 - **GIS:**
 ###### *Fruit/packman-*
