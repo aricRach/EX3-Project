@@ -43,9 +43,14 @@ public class game {
 		ArrayList<packman> pp=new ArrayList<packman>();
 
 		for(int i=0;i<packmans.size();i++) {
-			metaDataPack tempData= new metaDataPack(packmans.get(i).getId(),
-					packmans.get(i).getSpeed(), packmans.get(i).getRadius());
-			Point3D postionTemp = new Point3D(packmans.get(i).getX(), packmans.get(i).getY(), packmans.get(i).getZ());
+			String id=packmans.get(i).getId();
+			double speed=packmans.get(i).getSpeed();
+			double radius=packmans.get(i).getRadius();
+			metaDataPack tempData= new metaDataPack(id,speed, radius);
+			double x=packmans.get(i).getX();
+			double y=packmans.get(i).getY();
+			double z= packmans.get(i).getZ();
+			Point3D postionTemp = new Point3D(x, y,z);
 			packman temp = new packman(tempData, postionTemp);
 			pp.add(temp);
 		}
@@ -61,8 +66,13 @@ public class game {
 		ArrayList<fruit> ff=new ArrayList<fruit>();
 
 		for(int i=0;i<fruits.size();i++) {
-			metaDataFruit tempData= new metaDataFruit(fruits.get(i).getId(), fruits.get(i).getWeight());
-			Point3D postionTemp = new Point3D(fruits.get(i).getX(),fruits.get(i).getY(),fruits.get(i).getZ());
+			String id=fruits.get(i).getId();
+			double weight=fruits.get(i).getWeight();
+			metaDataFruit tempData= new metaDataFruit(id, weight);
+			double x=fruits.get(i).getX();
+			double y=fruits.get(i).getY();
+			double z=fruits.get(i).getZ();
+			Point3D postionTemp = new Point3D(x,y,z);
 			fruit temp = new fruit(tempData, postionTemp);
 			ff.add(temp);
 		}

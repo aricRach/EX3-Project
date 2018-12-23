@@ -190,7 +190,7 @@ public class guiGame extends JFrame
 					jLabel.paintEat(solutionPixel);
 
 				JOptionPane.showMessageDialog(null, "total time is: "
-				+game.getTotalTime()+"\n"+"total score is: "+game.getScore());//delete
+				+game.getTotalTime()+"\n"+"total score is: "+game.getScore());
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
