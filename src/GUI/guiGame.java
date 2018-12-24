@@ -181,12 +181,12 @@ public class guiGame extends JFrame
 					}
 
 					//converts from pixel to coordinates because all the algorithms use coordinates
-					ArrayList<fruit>fCoords=converts.pixels2CoordsFruit(fruits); 
-					ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans);
-
+					ArrayList<fruit>fCoords=converts.pixels2CoordsFruit(fruits,getHeight(),getWidth()); 
+					ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans,getHeight(),getWidth());
+					
 					s=algo.calcAll(fCoords, pCoords); // Solution store all the paths
 
-					solution solutionPixel=converts.solutionToPixel(s); // convert to pixel for show in GUI
+					solution solutionPixel=converts.solutionToPixel(s,getHeight(),getWidth()); // convert to pixel for show in GUI
 					jLabel.paintEat(solutionPixel);
 
 				JOptionPane.showMessageDialog(null, "total time is: "
@@ -256,7 +256,7 @@ public class guiGame extends JFrame
 		//game
 		game g=new game(fruits,packmans);
 		game.createGameCollection(folder+"\\"+fileName);
-		g.paintGame(); // use create
+		g.paintGame(getHeight(),getWidth()); // use create
 
 		try {
 			FileReader fr = new FileReader(folder + fileName);
@@ -293,8 +293,9 @@ public class guiGame extends JFrame
 		try {
 			FileWriter fw = new FileWriter(folder + fileName);
 			PrintWriter outs = new PrintWriter(fw);
-			String csvString=writeCsv.Write(fruits, packmans); // receive arrayList of fruits and packmans 
+			// receive arrayList of fruits and packmans 
 			//and return string represents all the data in the game like: points,weight etc
+			String csvString=writeCsv.Write(fruits, packmans,getHeight(),getWidth());
 			outs.println(csvString);
 			outs.close();
 			fw.close();
@@ -322,14 +323,14 @@ public class guiGame extends JFrame
 			PrintWriter outs = new PrintWriter(fw);
 
 			//converts from pixel to coordinates for create KML file
-			ArrayList<packman> ppCoords=converts.pixels2CoordsPack(packmans);
-			ArrayList<fruit> ffCoords = converts.pixels2CoordsFruit(fruits);
+			ArrayList<packman> ppCoords=converts.pixels2CoordsPack(packmans,getHeight(),getWidth());
+			ArrayList<fruit> ffCoords = converts.pixels2CoordsFruit(fruits,getHeight(),getWidth());
 
 			String save=folder+"\\"+fileName; // set name to the KML file same as csv name
 
 			//create new ArrayLists for use calcAll function then send packmans Path
-			ArrayList<fruit>fCoords=converts.pixels2CoordsFruit(fruits);
-			ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans);
+			ArrayList<fruit>fCoords=converts.pixels2CoordsFruit(fruits,getHeight(),getWidth());
+			ArrayList<packman>pCoords=converts.pixels2CoordsPack(packmans,getHeight(),getWidth());
 			algo.calcAll(fCoords, pCoords);
 
 			Path2KML.run(ffCoords, ppCoords,s,save,pCoords);
@@ -438,7 +439,6 @@ class MyJLabel extends JLabel implements MouseListener
 			double newHeight = yOld*getHeight()/oldHeight;
 
 			guiGame.fruits.get(i).setX(newWidth);
-
 			guiGame.fruits.get(i).setY(newHeight);
 
 			i++;
@@ -474,7 +474,7 @@ class MyJLabel extends JLabel implements MouseListener
 		g.drawImage(imageIcon.getImage(),0,0,getWidth(),getHeight(),this);
 
 		// update the pixels after stretch
-		reSizeFruit();
+        reSizeFruit();
 		reSizePackman();
 		
 		oldHeight=getHeight();
@@ -525,7 +525,7 @@ class MyJLabel extends JLabel implements MouseListener
 			Image packman;
 			try {
 				packman = ImageIO.read(new File("rsz_15fruit.png"));
-				g.drawImage(packman, guiGame.x-40, guiGame.y-21,this);
+				g.drawImage(packman,guiGame.x,guiGame.y,this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -551,7 +551,7 @@ class MyJLabel extends JLabel implements MouseListener
 			Image packman;
 			try {
 				packman = ImageIO.read(new File("rsz_15packman.png"));
-				g.drawImage(packman, guiGame.x-40, guiGame.y-21,this);
+				g.drawImage(packman, guiGame.x,guiGame.y,this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -603,7 +603,7 @@ class MyJLabel extends JLabel implements MouseListener
 
 			double speed=guiGame.packmans.get(index).getSpeed();
 			Thread.sleep((long) (15/speed));
-			g.fillOval(x-40, y-21, 3, 3);
+			g.fillOval(x, y, 3, 3);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -642,8 +642,8 @@ class MyJLabel extends JLabel implements MouseListener
 	public void mousePressed(MouseEvent e) {
 
 		guiGame.pressedTime = System.currentTimeMillis();
-		guiGame.x = e.getX()+40; // pixel on X-axis
-		guiGame.y = e.getY()+21; // pixel on Y-axis
+		guiGame.x = e.getX(); // pixel on X-axis
+		guiGame.y = e.getY(); // pixel on Y-axis
 	}
 
 	@Override
@@ -656,7 +656,7 @@ class MyJLabel extends JLabel implements MouseListener
 		
 		System.out.println("mouse Clicked");
 		guiGame.timeClicked = System.currentTimeMillis() - guiGame.pressedTime;
-		System.out.println("("+ guiGame.x + "," + e.getY() +")");
+		System.out.println("("+ guiGame.x + "," + guiGame.y +")");
 
 		if (guiGame.timeClicked >= 500) {
 

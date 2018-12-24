@@ -20,26 +20,38 @@ public class writeCsv {
 	 * @return String that contains all csv Data 
 	 * @throws IOException
 	 */
-	public static String Write(ArrayList<fruit> ff,ArrayList<packman> pp) throws IOException {
+	public static String Write(ArrayList<fruit> ff,ArrayList<packman> pp,double h,double w) throws IOException {
 		
 	   converts c = new converts();
 
-	   ArrayList<packman> pCoords=converts.pixels2CoordsPack(pp);
-       ArrayList<fruit> fCoords=converts.pixels2CoordsFruit(ff);
+	   ArrayList<packman> pCoords=converts.pixels2CoordsPack(pp,h,w);
+       ArrayList<fruit> fCoords=converts.pixels2CoordsFruit(ff,h,w);
 		
 		String str = "Type,id,Lat,Lon,Alt,Speed/Weight,Radius,"+pCoords.size()+","+fCoords.size()+"\n";
 		for(int i=0;i<pCoords.size();i++) {
 			
-			str+="P,"+pCoords.get(i).getId()+","+pCoords.get(i).getX()+","+pCoords.get(i).getY()+","+
-					pCoords.get(i).getZ()+","+pCoords.get(i).getSpeed()+","+pCoords.get(i).getRadius()+","+"\n";
+			String id=pCoords.get(i).getId();
+			double packX=pCoords.get(i).getX();
+			double packY=pCoords.get(i).getY();
+			double packZ=pCoords.get(i).getZ();
+			double speed=pCoords.get(i).getSpeed();
+			double radius=pCoords.get(i).getRadius();
+			
+			str+="P,"+id+","+packX+","+packY+","+packZ+","+speed+","+radius+","+"\n";
 		}
 
 		for(int i=0;i<fCoords.size()-1;i++) {
+			
+			String id=fCoords.get(i).getId();
+			double fruitX=fCoords.get(i).getX();
+			double fruitY=fCoords.get(i).getY();
+			double fruitZ=fCoords.get(i).getZ();
+			double weight=fCoords.get(i).getWeight();
 
-			str+="F,"+fCoords.get(i).getId()+","+fCoords.get(i).getX()+","+fCoords.get(i).getY()+","+
-					fCoords.get(i).getZ()+","+fCoords.get(i).getWeight()+","+"\n";
+			str+="F,"+id+","+fruitX+","+fruitY+","+fruitZ+","+weight+","+"\n";
 		}
 		
+		//For the last element in the Csv file
 		str+="F,"+fCoords.get(fCoords.size()-1).getId()+","+fCoords.get(fCoords.size()-1).getX()+","+
 		fCoords.get(fCoords.size()-1).getY()+","+
 				fCoords.get(fCoords.size()-1).getZ()+","+fCoords.get(fCoords.size()-1).getWeight();		

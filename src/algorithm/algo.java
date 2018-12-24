@@ -104,14 +104,18 @@ public abstract class algo {
 			for(int i=0;i<packSize;i++) { // pass all the packmans and check which packman should eat
 				
 				packman current = packs.get(i);
-				int toEat=eatFruit(fruits,current);//return the index of fruit the packman should eat
+				int toEat=eatFruit(fruits,current); // return the index of fruit the packman should eat
 				
-				Point3D tempPointPackman=changeCoordsAcordnigToRadius
-						(current.getPosition(), fruits.get(toEat).getPosition(),current.getRadius()); 	
-				metaDataPack data= new metaDataPack(current.getId(), current.getSpeed(), current.getRadius());
+				Point3D PackmanPosition=current.getPosition();
+				Point3D fruitPosition=fruits.get(toEat).getPosition();
+				double radius=current.getRadius();
+				double speed=current.getSpeed();
+				String id=current.getId();
+				Point3D tempPointPackman=changeCoordsAcordnigToRadius(PackmanPosition,fruitPosition ,radius); 	
+				metaDataPack data= new metaDataPack(id,speed ,radius);
 
 				packman newPackPosition =new packman(data,tempPointPackman);// the current packman after radius change
-				
+	
 				double timeToEat=getTime(newPackPosition, fruits.get(toEat));
 				if (timeToEat<min) {
 					
@@ -154,8 +158,14 @@ public abstract class algo {
 		int current=-1;
 		for(int i=0;i<f.size();i++) {
 
-			Point3D tempPointPackman=changeCoordsAcordnigToRadius(p.getPosition(), f.get(i).getPosition(), p.getRadius()); 	
-			metaDataPack data= new metaDataPack(p.getId(), p.getSpeed(), p.getRadius());
+			Point3D PackmanPosition=p.getPosition();
+			Point3D fruitPosition=f.get(i).getPosition();
+			double radius=p.getRadius();
+			double speed=p.getSpeed();
+			String id=p.getId();
+			
+			Point3D tempPointPackman=changeCoordsAcordnigToRadius(PackmanPosition,fruitPosition,radius); 	
+			metaDataPack data= new metaDataPack(id,speed,radius);
 
 			packman newPackPosition =new packman(data,tempPointPackman);
 
@@ -193,7 +203,7 @@ public abstract class algo {
 			return new Point3D(lat,lon,p1.z());
 
 		}
-		return p1;// or p2 they equals
+		return p1; // or p2 they equals
 	}
 
 }

@@ -28,4 +28,24 @@ public class map {
 		start=new Point3D(32.105835, 35.202219,0);
 		end=new Point3D(32.101923, 35.212451,0);
 	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public Point3D getStart() {
+		return start;
+	}
+
+	public Point3D getEnd() {
+		return end;
+	}
 }

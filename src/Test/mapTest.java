@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import Coords.MyCoords;
 import Geom.Point3D;
 import Map.converts;
+import Map.map;
 import Map.pix;
 
 class mapTest {
@@ -24,6 +25,9 @@ class mapTest {
 	double angleCircCaravan;
 	Point3D caravan; //coordinate caravan
 	pix caravanPix; //pix caravan
+	map ourMap;
+	double height;
+	double width;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -40,10 +44,13 @@ class mapTest {
 		p2=new pix(732,544); // middle of the circle
 		 m=new MyCoords();
 		c=new converts();
+		ourMap=new map();
+		height = ourMap.getHeight();
+		width = ourMap.getWidth();
 		circle=new Point3D(32.102477,  35.207464);
 		caravan=new Point3D(32.103342, 35.208818);
 		distCaravanCirc=m.distance3d(caravan, circle);//284.1
-		angleCircCaravan=m.azimuth(circle,caravan);//195.69
+		angleCircCaravan=m.azimuth(circle,caravan);//195.69	
 	}
 
 	@AfterEach
@@ -59,8 +66,7 @@ class mapTest {
 	public void distBet2Pix() throws IOException {
 		
 		double expected=distCaravanCirc;
-		
-		double distance=converts.distanceBet2Pixels(caravanPix, p2);// result= 291 the real is 284
+		double distance=converts.distanceBet2Pixels(caravanPix, p2,height,width);
 		System.out.println("the distance is "+distance);
 		
 		Assert.assertEquals(expected, distance,3);
@@ -72,7 +78,7 @@ class mapTest {
 		
 		
 		double expected=angleCircCaravan;
-		double angle=converts.angleBet2Pixels(p2, caravanPix);// result=195.79 the real is 195.79
+		double angle=converts.angleBet2Pixels(p2, caravanPix,height,width);// result=195.79 the real is 195.79
 		
 		System.out.println(angle);
 		Assert.assertEquals(expected, angle,1);
@@ -85,13 +91,13 @@ class mapTest {
 		
 		
 		double expected=0;
-		Point3D p1Coords=converts.pixel2Coords(caravanPix.x(), caravanPix.y());
+		Point3D p1Coords=converts.pixel2Coords(caravanPix.x(), caravanPix.y(),height,width);
 		
 		double actualDist=m.distance3d(p1Coords, caravan);
 		
 		Assert.assertEquals(expected, actualDist,3);//check caravan
 		
-		Point3D p2Coords=converts.pixel2Coords(p2.x(), p2.y());		
+		Point3D p2Coords=converts.pixel2Coords(p2.x(), p2.y(),height,width);		
 		
 		double actualDist2=m.distance3d(p2Coords, circle);
 				
@@ -111,8 +117,8 @@ class mapTest {
 		Point3D p2pix=new Point3D(p2.x(),p2.y());// original
 
 		
-		Point3D p1Pixel=converts.coords2Pixel(caravan.x(),  caravan.y()); //new
-		Point3D p2Pixel =converts.coords2Pixel(circle.x(),  circle.y()); //new
+		Point3D p1Pixel=converts.coords2Pixel(caravan.x(),  caravan.y(),height,width); //new
+		Point3D p2Pixel =converts.coords2Pixel(circle.x(),  circle.y(),height,width); //new
 						
 		double currentDist1=p1Pixel.distance2D(caravanPixel);
 		
@@ -121,7 +127,6 @@ class mapTest {
 		double currentDist2=p2Pixel.distance2D(p2pix);
 		
 		Assert.assertEquals(expected, currentDist2,8);// check p2 
-		
 		
 	}
 	

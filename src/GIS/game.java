@@ -121,15 +121,15 @@ public class game {
 	 * this function call for open Gui window with packmans and fruits ArrayLists
 	 * @throws IOException
 	 */
-	public void paintGame() throws IOException {
+	public void paintGame(double h,double w) throws IOException {
 
 		guiGame demo = new guiGame(); // create current Gui 
 
 		// create fruit and packmans collection with Pixel coordinates
 		// in order to send the collections to createGuiAndShow
 		
-		ArrayList<fruit> fruitPix=converts.Coords2PixelFruit(fruits);
-		ArrayList<packman> packPix=converts.Coords2PixelPack(packmans);
+		ArrayList<fruit> fruitPix=converts.Coords2PixelFruit(fruits,h,w);
+		ArrayList<packman> packPix=converts.Coords2PixelPack(packmans,h,w);
 
 		demo.openFileGUI(fruitPix,packPix);
 	}
